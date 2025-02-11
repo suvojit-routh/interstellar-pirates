@@ -1,0 +1,118 @@
+{
+  "screen_width": 1366,
+  "screen_height": 768,
+  "spaceship": 3,
+  "jade": 9997600,
+  "gold": 10000003097,
+  "xeroship_owned": true,
+  "zenoship_owned": true,
+  "furryship_owned": true,
+  "iron": 205,
+  "copper": 181,
+  "silver": 358,
+  "coal": 229,
+  "platinum": 51,
+  "frost crystal": 0,
+  "lavastone": 4,
+  "purple gemstone": 2,
+  "emerald": 4,
+  "iridium": 2,
+  "gold_ore": 113,
+  "fuel": 0,
+  "event": {
+    "pirate_killed": 699,
+    "pirates_kills": [
+      100000,
+      false
+    ],
+    "planet_discovered": 0,
+    "planet_discover": [
+      1000,
+      false
+    ],
+    "boss_killed": 0,
+    "boss_kills": [
+      100,
+      false
+    ],
+    "wormhole_discovered": 0,
+    "wormhole_discover": [
+      50,
+      false
+    ],
+    "meteor_destroyed": 0,
+    "meteor_destroy": [
+      10000,
+      false
+    ],
+    "spacestation_founded": 0,
+    "spacestation_found": [
+      20,
+      false
+    ]
+  },
+  "sound": {
+    "sfx": 10,
+    "music": 10,
+    "width": 400,
+    "height": 40
+  },
+  "dailies": {
+    "daily_reset": false,
+    "last_reset_day": 11,
+    "playtime": 16,
+    "target_playtime": [
+      900,
+      false
+    ],
+    "pirate_killed": 0,
+    "pirates_kills": [
+      1000,
+      false
+    ],
+    "lavastone_obtained": 0,
+    "lavastone_needed": [
+      2,
+      false
+    ],
+    "emerald_obtained": 0,
+    "emerald_needed": [
+      2,
+      false
+    ],
+    "crafted_item": 0,
+    "craft_needed": [
+      2,
+      false
+    ],
+    "wish_completed": 0,
+    "wish_needed": [
+      2,
+      false
+    ]
+  },
+  "upgrades": {
+    "plasma_cannon": 4,
+    "laser_beam": 3
+  },
+  "defaultship_equipment": {
+    "plasma_cannon": false,
+    "laser_beam": false
+  },
+  "xeroship_equipment": {
+    "plasma_cannon": false,
+    "laser_beam": false
+  },
+  "zenoship_equipment": {
+    "plasma_cannon": false,
+    "laser_beam": false
+  },
+  "furryship_equipment": {
+    "plasma_cannon": false,
+    "laser_beam": true
+  },
+  "exhaust": {
+    "current_exhaust": 1,
+    "blue_flame_exhaust": true
+  }
+}
