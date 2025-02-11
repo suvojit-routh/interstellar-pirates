@@ -341,6 +341,9 @@ default_ship_inv = pygame.transform.scale(pygame.image.load('graphics/Spaceship/
 xeroship_inv = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship.png'), (75,75)).convert_alpha()
 zenoship_inv = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship4.png'), (75,75)).convert_alpha()
 furryship_inv = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship5.png'), (75,75)).convert_alpha()
+# EXHAUST INV
+default_exhaust_inv = pygame.transform.scale(pygame.image.load('graphics/exhaust/red_flame.png'), (75,75)).convert_alpha()
+blueflame_exhaust_inv = pygame.transform.scale(pygame.image.load('graphics/exhaust/blue_flame.png'), (75,75)).convert_alpha()
 
 #SPACESHIP SELECTION PAGE
 default_ship_sel = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship3.png'), (300,300)).convert_alpha()
@@ -680,6 +683,13 @@ xeroship_na = Rect_Button(screen,100,30,650,220,'NA','white','cyan','black',20)
 zenoship_na = Rect_Button(screen,100,30,850,220,'NA','white','cyan','black',20)
 furryship_na = Rect_Button(screen,100,30,1050,220,'NA','white','cyan','black',20)
 
+#exhaust enable buttons
+default_exhaust_enable = Rect_Button(screen,100,30,450,220,'ENABLE','green','red','black',20)
+default_exhaust_enabled = Rect_Button(screen,100,30,450,220,'ENABLED','white','cyan','black',20)
+
+blueflame_exhaust_enable = Rect_Button(screen,100,30,650,220,'ENABLE','green','red','black',20)
+blueflame_exhaust_enabled = Rect_Button(screen,100,30,650,220,'ENABLED','white','cyan','black',20)
+blueflame_exhaust_na = Rect_Button(screen,100,30,650,220,'NA','green','red','black',20)
 
 # SHOP BUTTONS
 shop_rect_width = 200
@@ -716,9 +726,10 @@ seven_twenty_button = Rect_Button(screen,200,60,display_button_x,400,'1280 x 720
 sound_button = Rect_Button(screen,200,60,50,50,'Sound','yellow','red','black')
 display_button = Rect_Button(screen,200,60,50,150,'Display','yellow','red','black')
 # INVENTORY BUTTONS
-ships_button = Rect_Button(screen,200,60,50,50,'Ships','yellow','red','black')
-items_button = Rect_Button(screen,200,60,50,150,'Items','yellow','red','black')
-crafting_button = Rect_Button(screen,200,60,50,250,'Crafting','yellow','red','black')
+items_button = Rect_Button(screen,200,60,50,50,'Items','yellow','red','black')
+crafting_button = Rect_Button(screen,200,60,50,150,'Crafting','yellow','red','black')
+ships_button = Rect_Button(screen,200,60,50,250,'Ships','yellow','red','black')
+exhaust_button = Rect_Button(screen,200,60,50,350,'Exhaust','yellow','red','black')
 
 #craft buttons
 craft_button_x = screen.get_width() * 0.28125
@@ -843,8 +854,11 @@ def inventory_template():
         state = State.ITEMS_INV
     if crafting_button.draw():
         state = State.CRAFTING
+    if exhaust_button.draw():
+        state = State.EXHAUST
     if menu_back_button.draw():
         state = State.MENU
+
 
 
 
@@ -869,7 +883,27 @@ def crafting_inv():
         state = State.MENU
 
 
-    
+def exhaust_inv():
+    global game_data,state
+    inventory_template()
+    items_inv_template(450,100,'Choose Exhaust','orangered')
+    screen.blit(default_exhaust_inv,(463,110))
+    items_inv_template(650,100,'Choose Exhaust','orangered')
+    screen.blit(blueflame_exhaust_inv,(663,110))
+
+    if default_exhaust_enable.draw():
+        game_data["exhaust"]["current_exhaust"] = 0
+    if game_data["exhaust"]["current_exhaust"] == 0:
+        default_exhaust_enabled.draw()
+
+    if game_data["exhaust"]["blue_flame_exhaust"] == True:
+        if blueflame_exhaust_enable.draw():
+            ["exhaust"]["current_exhaust"] = 1
+    else:
+        blueflame_exhaust_na.draw()
+    if game_data["exhaust"]["blue_flame_exhaust"] == True and game_data["exhaust"]["current_exhaust"] == 1:
+        blueflame_exhaust_enabled.draw()
+
 
 # INVENTORY ITEM TEMPLATE
 def items_inv_template(pos_x,pos_y,text,color):
@@ -3668,6 +3702,8 @@ while run:
                 pass 
             gold_craft_btn.hover(f"Need 100 gold ores(Gold ore - {game_data['gold_ore']})",'below',20)
 
+    if state == State.EXHAUST:
+        exhaust_inv()
 
     if state == State.SETTINGS:
         screen.blit(settings_bg,(0,0))

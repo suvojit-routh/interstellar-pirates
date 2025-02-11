@@ -18,6 +18,7 @@ class State(Enum):
 	SELECTION_MENU = auto()
 	SHIPS_INV = auto()
 	UPGRADE_INV = auto()
+	EXHAUST = auto()
 	THRUSTER = auto()
 	CANNON = auto()
 	ITEMS_INV = auto()
