@@ -1059,7 +1059,7 @@ def select_cannon():
     screen.blit(laser_beam,(450,100))
     pygame.draw.rect(screen,"white",laser_beam_rect,2)
 
-    laser_beam_amount = font.render(f"Laser beam : {game_data["upgrades"]["laser_beam"]}",True,"white")
+    laser_beam_amount = font.render(f"Laser beam : {game_data['upgrades']['laser_beam']}",True,"white")
     laser_beam_amount_x = 450 + (100 - laser_beam_amount.get_width())//2
     laser_beam_amount_y = 210
     pygame.draw.rect(screen,"black",[laser_beam_amount_x - gap,laser_beam_amount_y - gap , laser_beam_amount.get_width() + gap *2,laser_beam_amount.get_height()+gap*2],0,4)
@@ -1106,7 +1106,7 @@ def select_cannon():
     screen.blit(plasma_cannon,(650,100))
     pygame.draw.rect(screen,"white",plasma_cannon_rect,2)
 
-    plasma_cannon_amount = font.render(f"Plasma cannon : {game_data["upgrades"]["plasma_cannon"]}",True,"white")
+    plasma_cannon_amount = font.render(f"Plasma cannon : {game_data['upgrades']['plasma_cannon']}",True,"white")
     plasma_cannon_amount_x = 650 + (100 - plasma_cannon_amount.get_width())//2
     plasma_cannon_amount_y = 210
     pygame.draw.rect(screen,"black",[plasma_cannon_amount_x - gap,laser_beam_amount_y - gap , plasma_cannon_amount.get_width() + gap *2,plasma_cannon_amount.get_height()+gap*2],0,4)
@@ -3340,10 +3340,10 @@ def dailies_page():
     header("Dailies","black","#FFC107","white")
     progress_bar(0,"target_playtime","playtime",100,0.9,f"Play 15 minutes (Minutes: {int(game_data['dailies']['playtime']//60)})",50,"dailies")
     progress_bar(0,'pirates_kills',"pirate_killed",200,1,f"Kill 1000 pirates (Progress: {int(game_data['dailies']['pirate_killed']//10)}%)",50,"dailies")
-    progress_bar(1,"lavastone_needed","lavastone_obtained",300,500,f"Obtain 2 lavastone (Progress: {int(game_data["dailies"]["lavastone_obtained"]*50)}%)",50,"dailies")
-    progress_bar(1,"emerald_needed","emerald_obtained",400,500,f"Obtain 2 emerald (Progress: {int(game_data["dailies"]["emerald_obtained"]*50)}%)",50,"dailies")
-    progress_bar(1,"craft_needed","crafted_item",500,500,f"Craft 2 items (Progress: {int(game_data["dailies"]["crafted_item"]*50)}%)",50,"dailies")
-    progress_bar(1,"wish_needed","wish_completed",600,500,f"Summon 2 time (Progress: {int(game_data["dailies"]["wish_completed"]*50)}%)",50,"dailies")
+    progress_bar(1,"lavastone_needed","lavastone_obtained",300,500,f"Obtain 2 lavastone (Progress: {int(game_data['dailies']['lavastone_obtained']*50)}%)",50,"dailies")
+    progress_bar(1,"emerald_needed","emerald_obtained",400,500,f"Obtain 2 emerald (Progress: {int(game_data['dailies']['emerald_obtained']*50)}%)",50,"dailies")
+    progress_bar(1,"craft_needed","crafted_item",500,500,f"Craft 2 items (Progress: {int(game_data['dailies']['crafted_item']*50)}%)",50,"dailies")
+    progress_bar(1,"wish_needed","wish_completed",600,500,f"Summon 2 time (Progress: {int(game_data['dailies']['wish_completed']*50)}%)",50,"dailies")
 
     
 

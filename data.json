@@ -60,7 +60,7 @@
   "dailies": {
     "daily_reset": false,
     "last_reset_day": 11,
-    "playtime": 16,
+    "playtime": 35,
     "target_playtime": [
       900,
       false
