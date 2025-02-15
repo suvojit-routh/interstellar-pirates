@@ -2,8 +2,8 @@
   "screen_width": 1366,
   "screen_height": 768,
   "spaceship": 3,
-  "jade": 9997600,
-  "gold": 10000003280,
+  "jade": 9997658,
+  "gold": 10000006505,
   "xeroship_owned": true,
   "zenoship_owned": true,
   "furryship_owned": true,
@@ -20,17 +20,17 @@
   "gold_ore": 113,
   "fuel": 0,
   "event": {
-    "pirate_killed": 781,
+    "pirate_killed": 1537,
     "pirates_kills": [
       100000,
       false
     ],
-    "planet_discovered": 0,
+    "planet_discovered": 2,
     "planet_discover": [
       1000,
       false
     ],
-    "boss_killed": 0,
+    "boss_killed": 1,
     "boss_kills": [
       100,
       false
@@ -52,20 +52,20 @@
     ]
   },
   "sound": {
-    "sfx": 0,
-    "music": 0,
+    "sfx": 10,
+    "music": 10,
     "width": 400,
     "height": 40
   },
   "dailies": {
     "daily_reset": false,
-    "last_reset_day": 11,
-    "playtime": 236,
+    "last_reset_day": 15,
+    "playtime": 263,
     "target_playtime": [
       900,
       false
     ],
-    "pirate_killed": 82,
+    "pirate_killed": 756,
     "pirates_kills": [
       1000,
       false
