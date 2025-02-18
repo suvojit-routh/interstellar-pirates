@@ -5,6 +5,7 @@ from math import sin
 from pygame.locals import *
 from scripts.galaxy_planet import *
 from scripts.state import *
+from scripts.space import *
 from time import time, tzname
 from datetime import datetime, timedelta
 from pypresence import Presence
@@ -898,7 +899,7 @@ def exhaust_inv():
 
     if game_data["exhaust"]["blue_flame_exhaust"] == True:
         if blueflame_exhaust_enable.draw():
-            ["exhaust"]["current_exhaust"] = 1
+            game_data["exhaust"]["current_exhaust"] = 1
     else:
         blueflame_exhaust_na.draw()
     if game_data["exhaust"]["blue_flame_exhaust"] == True and game_data["exhaust"]["current_exhaust"] == 1:
@@ -2928,7 +2929,19 @@ def set_spacestation_timer():
     pygame.time.set_timer(SPACESTATION_REGEN_TIMER, random_delay)
 set_spacestation_timer()
 
+#CAMPAIGN MODE STUFF
+spaceship_img = pygame.transform.smoothscale(pygame.image.load("graphics/Story_assets/empty_ship.png"),(screen_width,screen_height)).convert_alpha()
 
+
+space_group = pygame.sprite.Group()
+
+def draw_space(display):
+    while len(space_group) < 200:  
+        space = Space(display)
+        space_group.add(space)
+
+    space_group.draw(display)
+    space_group.update()
 
 
 run = True
@@ -4198,24 +4211,23 @@ while run:
 
 
     if state == State.CAMPAIGN:
-
-        boss_group.add(boss_01)
-        planetery_bg_group.draw(screen)
-        planetery_bg_group.update()
-        boss_group.draw(screen)
-        boss_group.update()
-        boss_aa_group.draw(screen)
-        boss_aa_group.update()
-        boss_ultimate_group.draw(screen)
-        boss_ultimate_group.update()
-        spaceship_group.draw(screen)
-        spaceship_group.update()
-        ships_skills()
-        if menu_back_button.draw():
-            state = State.MENU
-
-
-        
+        # boss_group.add(boss_01)
+        # planetery_bg_group.draw(screen)
+        # planetery_bg_group.update()
+        # boss_group.draw(screen)
+        # boss_group.update()
+        # boss_aa_group.draw(screen)
+        # boss_aa_group.update()
+        # boss_ultimate_group.draw(screen)
+        # boss_ultimate_group.update()
+        # spaceship_group.draw(screen)
+        # spaceship_group.update()
+        # ships_skills()
+        # if menu_back_button.draw():
+        #     state = State.MENU
+        screen.fill("black")
+        draw_space(screen)
+        screen.blit(spaceship_img,(0,0))
     clock.tick(60)
     pygame.display.flip()
 
