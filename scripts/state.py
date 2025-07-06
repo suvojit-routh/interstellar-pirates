@@ -14,6 +14,7 @@ class State(Enum):
 	GACHA_RESULT = auto()
 	MODES = auto()
 	CAMPAIGN = auto()
+	RESEARCH = auto()
 	SELECTION = auto()
 	SELECTION_MENU = auto()
 	SHIPS_INV = auto()
@@ -38,6 +39,8 @@ class State(Enum):
 	SPACESTATION_EXIT = auto()
 	WARPING = auto()
 	LOBBY = auto()
+	REWARD = auto()
+
 
 state = State.START_BGM
 
