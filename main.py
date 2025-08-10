@@ -216,6 +216,13 @@ ships_data = {
     }
 }
 
+others_data = {
+    "energy_core" : {
+        "current_amount" : 500,
+        "maximum_amount" : 500,
+    }
+}
+
 app_name = "Interstellar Pirates"
 roaming_path = os.path.join(os.getenv("APPDATA"), app_name)
 
@@ -228,6 +235,7 @@ settings_data_path = os.path.join(roaming_path,"settings.json")
 quest_data_path = os.path.join(roaming_path,"quest.json")
 equipment_data_path = os.path.join(roaming_path,"equipments.json")
 ships_data_path = os.path.join(roaming_path,"ships.json")
+others_data_path = os.path.join(roaming_path,"others.json")
 
     
 
@@ -245,6 +253,7 @@ load_data(settings_data_path,settings_data)
 load_data(quest_data_path,quest_data)
 load_data(equipment_data_path,equipment_data)
 load_data(ships_data_path,ships_data)
+load_data(others_data_path , others_data)
 
 
 #Saving all the data
@@ -258,7 +267,7 @@ def save_all_data():
     save_data(quest_data_path,quest_data)
     save_data(equipment_data_path,equipment_data)
     save_data(ships_data_path,ships_data)
-
+    save_data(others_data_path , others_data)
 
 
 #GAME SETTINGS
@@ -563,6 +572,10 @@ def game_modes():
     menu_background_group.draw(screen)
     menu_background_group.update()
 
+def game_modes_ui():
+    if research_shop_button.draw():
+        pass
+
 def header(text,text_color = 'black',rect_color = 'white',outline_color = 'black',font_size = 40,y_pos = 20):
     font = pygame.font.Font('font/gacha.ttf',font_size)
     text = font.render(text, True, text_color)
@@ -839,9 +852,10 @@ resume_button = Rect_Button(screen, 200 , 60 , 100,100 , 'Resume' , 'pink' , 'ma
 menu_button = Rect_Button(screen, 200 , 60 , 100,200 , 'Menu' , 'pink' , 'magenta' , 'black')
 
 # MODES BUTTONS
-infinity_button = Rect_Button(screen , 200 , 60 , 100,100 , 'Infinity' , 'white' , 'orangered' , 'black', 30 )
-research_button = Rect_Button(screen , 200 , 60 , 100,200 , 'Research' , 'white' , 'orangered' , 'black' , 30)
-campaign_button = Rect_Button(screen , 200 , 60 , 100,300 , 'Campaign' , 'white' , 'orangered' , 'black' , 30)
+infinity_button = Rect_Button(screen , 200 , 60 , 100, 100 , 'Infinity' , 'white' , 'orangered' , 'black', 30 )
+research_button = Rect_Button(screen , 200 , 60 , 100, 200 , 'Research' , 'white' , 'orangered' , 'black' , 30)
+campaign_button = Rect_Button(screen , 200 , 60 , 100, 300 , 'Campaign' , 'white' , 'orangered' , 'black' , 30)
+research_shop_button = Rect_Button(screen , 200 , 60 , 100, 400 , 'Shop' , 'white' , 'orangered' , 'black' , 30)
 # MAIN MENU BUTTONS
 class Button:
     def __init__(self,text,width,height,pos,state,elevation,action,result,bought,sold,original_top,top_color,bottom_color,text_color,hover_color):
@@ -1731,7 +1745,6 @@ buy_jade_button = Rect_Button(screen, 200, 60, first_item_x, 290, 'BUY JADE', 'y
 buy_gold_button = Rect_Button(screen, 200, 60, second_item_x, 290, "BUY GOLD", 'yellow', 'red', 'black')
 buy_xeroship_button = Rect_Button(screen, 200, 60, third_item_x, 290, 'BUY', 'yellow', 'red', 'black')
 buy_blue_exxhaust = Rect_Button(screen, 200, 60, forth_item_x, 290, 'BUY', 'yellow', 'red', 'black')
-
 unavailable_jade_button = Rect_Button(screen, 200, 60, first_item_x, 290, 'UNAVIALABLE', 'yellow', 'red', 'black', 30)
 unavailable_gold_button = Rect_Button(screen, 200, 60, second_item_x, 290, 'UNAVIALABLE', 'yellow', 'red', 'black', 30)
 sold_xeroship_button = Rect_Button(screen, 200, 60, third_item_x, 290, 'SOLD OUT', 'white', 'red', 'black', 35)
@@ -4153,6 +4166,7 @@ while run:
         state = State.MENU
     if state == State.MODES:
         game_modes()
+        game_modes_ui()
         if infinity_button.draw():
             current_state = State.ALIVE
             state = state.SELECTION

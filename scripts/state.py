@@ -40,6 +40,7 @@ class State(Enum):
 	WARPING = auto()
 	LOBBY = auto()
 	REWARD = auto()
+	RESEARCH_SHOP =  auto()
 
 
 state = State.START_BGM
