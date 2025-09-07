@@ -21,7 +21,6 @@ CLIENT_ID = "1336805715767070740"
 
 # Create an instance of the Presence class
 rpc = Presence(CLIENT_ID)
-
 # Function to update the Discord Rich Presence
 def update_rich_presence():
     try:
@@ -223,6 +222,31 @@ others_data = {
     }
 }
 
+profile_data = {
+    "profile" : {
+        "username" : "Stark",
+        "bio" : "Regrets are for loosers",
+        "current_level" : 1,
+        "current_xp" : 0,
+        "max_level" : 1000,
+        "xp_per_level" : 2000,
+        "xp_multiplier" : 1.5,
+    },
+    "stats" : {
+        "high_score" : 0,
+        "pirates_killed" : 0,
+        "meteor_destroyed" : 0,
+        "bosses_killed" : 0,
+        "death_counter" : 0,
+        "planet_discovered" : 0,
+        "wormhole_discovered" : 0,
+        "spacestation_discovered" : 0,
+        "total_summons" : 0,
+        "minutes_played" : 0,
+
+    }
+}
+
 app_name = "Interstellar Pirates"
 roaming_path = os.path.join(os.getenv("APPDATA"), app_name)
 
@@ -236,6 +260,7 @@ quest_data_path = os.path.join(roaming_path,"quest.json")
 equipment_data_path = os.path.join(roaming_path,"equipments.json")
 ships_data_path = os.path.join(roaming_path,"ships.json")
 others_data_path = os.path.join(roaming_path,"others.json")
+profile_data_path = os.path.join(roaming_path,"profile.json")
 
     
 
@@ -254,6 +279,8 @@ load_data(quest_data_path,quest_data)
 load_data(equipment_data_path,equipment_data)
 load_data(ships_data_path,ships_data)
 load_data(others_data_path , others_data)
+load_data(profile_data_path , profile_data)
+
 
 
 #Saving all the data
@@ -268,6 +295,9 @@ def save_all_data():
     save_data(equipment_data_path,equipment_data)
     save_data(ships_data_path,ships_data)
     save_data(others_data_path , others_data)
+    save_data(profile_data_path , profile_data)
+
+
 
 
 #GAME SETTINGS
@@ -407,9 +437,9 @@ pirate_num = random.randrange(1,26)
 
 #EFFECTS
 boom_effect = pygame.image.load('graphics/effects/4.png').convert_alpha()
-boom_surf = pygame.transform.scale(boom_effect, (128,128))
+boom_surf = pygame.transform.smoothscale(boom_effect, (128,128))
 boom_effect2 = pygame.image.load('graphics/effects/4.png').convert_alpha()
-boom_surf2 = pygame.transform.scale(boom_effect2, (200,200))
+boom_surf2 = pygame.transform.smoothscale(boom_effect2, (200,200))
 
 # SOUNDS
 pygame.mixer.set_num_channels(16) 
@@ -450,37 +480,37 @@ def volume_adjustment():
 
 
 #TAB MENU SPACESHIP
-default_ship_tab = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship3.png'), (350,350)).convert_alpha()
-xeroship_tab = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship.png'), (350,350)).convert_alpha()
-zenoship_tab = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship4.png'), (350,350)).convert_alpha()
-furryship_tab = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship5.png'), (350,350)).convert_alpha()
+default_ship_tab = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship3.png'), (350,350)).convert_alpha()
+xeroship_tab = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship.png'), (350,350)).convert_alpha()
+zenoship_tab = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship4.png'), (350,350)).convert_alpha()
+furryship_tab = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship5.png'), (350,350)).convert_alpha()
 
 #TEMPLATES
-selection_template = pygame.transform.scale(pygame.image.load('graphics/Templates/selection_bg.png'),(400,400)).convert_alpha()
+selection_template = pygame.transform.smoothscale(pygame.image.load('graphics/Templates/selection_bg.png'),(400,400)).convert_alpha()
 
 # ASSETS BGS
-shop_bg = pygame.transform.scale(pygame.image.load('graphics/Asset_bg/1.png'), (screen_width,screen_height)).convert_alpha()
-inventory_bg = pygame.transform.scale(pygame.image.load('graphics/Asset_bg/2.png'), (screen_width,screen_height)).convert_alpha()
-pause_bg = pygame.transform.scale(pygame.image.load('graphics/Asset_bg/3.png'), (screen_width,screen_height)).convert_alpha()
-settings_bg = pygame.transform.scale(pygame.image.load('graphics/Asset_bg/4.png'), (screen_width,screen_height)).convert_alpha()
+shop_bg = pygame.transform.smoothscale(pygame.image.load('graphics/Asset_bg/1.png'), (screen_width,screen_height)).convert_alpha()
+inventory_bg = pygame.transform.smoothscale(pygame.image.load('graphics/Asset_bg/2.png'), (screen_width,screen_height)).convert_alpha()
+pause_bg = pygame.transform.smoothscale(pygame.image.load('graphics/Asset_bg/3.png'), (screen_width,screen_height)).convert_alpha()
+settings_bg = pygame.transform.smoothscale(pygame.image.load('graphics/Asset_bg/4.png'), (screen_width,screen_height)).convert_alpha()
 gacha_menu_bg = pygame.image.load('graphics/Asset_bg/5.png').convert_alpha()
-event_bg = pygame.transform.scale(pygame.image.load('graphics/Asset_bg/7.png'), (screen_width,screen_height)).convert_alpha()
+event_bg = pygame.transform.smoothscale(pygame.image.load('graphics/Asset_bg/7.png'), (screen_width,screen_height)).convert_alpha()
 # SHOP OBJECTS 
-xeroship_buy_surf = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship.png'), (125,125)).convert_alpha()
-blue_exhaust_buy_surf = pygame.transform.scale(pygame.image.load('graphics/exhaust/blue_flame.png'), (125,125)).convert_alpha()
-jade_buy_surf = pygame.transform.scale(pygame.image.load('graphics/Objects/crystal.png'), (125,125)).convert_alpha()
-gold_buy_surf = pygame.transform.scale(pygame.image.load('graphics/Objects/gold.png'), (125,125)).convert_alpha()
-emerald_buy_surf = pygame.transform.scale(pygame.image.load('graphics/Ores/emerald.png'), (125,125)).convert_alpha() 
-purple_gemstone_buy_surf = pygame.transform.scale(pygame.image.load('graphics/Ores/purple gemstone.png'), (125,125)).convert_alpha()
+xeroship_buy_surf = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship.png'), (125,125)).convert_alpha()
+blue_exhaust_buy_surf = pygame.transform.smoothscale(pygame.image.load('graphics/exhaust/blue_flame.png'), (125,125)).convert_alpha()
+jade_buy_surf = pygame.transform.smoothscale(pygame.image.load('graphics/Objects/crystal.png'), (125,125)).convert_alpha()
+gold_buy_surf = pygame.transform.smoothscale(pygame.image.load('graphics/Objects/gold.png'), (125,125)).convert_alpha()
+emerald_buy_surf = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/emerald.png'), (125,125)).convert_alpha() 
+purple_gemstone_buy_surf = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/purple gemstone.png'), (125,125)).convert_alpha()
 
 #BOTTOMBAR ICONS
-jade_icon = pygame.transform.scale(pygame.image.load('graphics/Objects/crystal_red.png'), (50,50)).convert_alpha()
-gold_icon = pygame.transform.scale(pygame.image.load('graphics/Objects/gold.png'), (50,50)).convert_alpha()
-fuel_icon = pygame.transform.scale(pygame.image.load('graphics/Objects/fuel.png'), (40,50)).convert_alpha()
-gold_ore_icon = pygame.transform.scale(pygame.image.load('graphics/Ores/gold.png'), (50,50)).convert_alpha()
-coal_icon = pygame.transform.scale(pygame.image.load('graphics/Ores/coal.png'), (50,50)).convert_alpha()
-emerald_icon = pygame.transform.scale(pygame.image.load('graphics/Ores/emerald.png'), (50,50)).convert_alpha() 
-purple_gemstone_icon = pygame.transform.scale(pygame.image.load('graphics/Ores/purple gemstone.png'), (50,50)).convert_alpha()
+jade_icon = pygame.transform.smoothscale(pygame.image.load('graphics/Objects/crystal_red.png'), (50,50)).convert_alpha()
+gold_icon = pygame.transform.smoothscale(pygame.image.load('graphics/Objects/gold.png'), (50,50)).convert_alpha()
+fuel_icon = pygame.transform.smoothscale(pygame.image.load('graphics/Objects/fuel.png'), (40,50)).convert_alpha()
+gold_ore_icon = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/gold.png'), (50,50)).convert_alpha()
+coal_icon = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/coal.png'), (50,50)).convert_alpha()
+emerald_icon = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/emerald.png'), (50,50)).convert_alpha() 
+purple_gemstone_icon = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/purple gemstone.png'), (50,50)).convert_alpha()
 test = pygame.image.load('graphics/1.png').convert_alpha()
 
 #SPACESHIPS
@@ -491,49 +521,49 @@ furry_ship = pygame.image.load('graphics/Spaceship/ship5.png').convert_alpha()
 
 
 #SPACESHIPS INV
-default_ship_inv = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship3.png'), (75,75)).convert_alpha()
-xeroship_inv = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship.png'), (75,75)).convert_alpha()
-zenoship_inv = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship4.png'), (75,75)).convert_alpha()
-furryship_inv = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship5.png'), (75,75)).convert_alpha()
+default_ship_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship3.png'), (75,75)).convert_alpha()
+xeroship_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship.png'), (75,75)).convert_alpha()
+zenoship_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship4.png'), (75,75)).convert_alpha()
+furryship_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship5.png'), (75,75)).convert_alpha()
 # EXHAUST INV
-default_exhaust_inv = pygame.transform.scale(pygame.image.load('graphics/exhaust/red_flame.png'), (75,75)).convert_alpha()
-blueflame_exhaust_inv = pygame.transform.scale(pygame.image.load('graphics/exhaust/blue_flame.png'), (75,75)).convert_alpha()
+default_exhaust_inv = pygame.transform.smoothscale(pygame.image.load('graphics/exhaust/red_flame.png'), (75,75)).convert_alpha()
+blueflame_exhaust_inv = pygame.transform.smoothscale(pygame.image.load('graphics/exhaust/blue_flame.png'), (75,75)).convert_alpha()
 
 #SPACESHIP SELECTION PAGE
-default_ship_sel = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship3.png'), (300,300)).convert_alpha()
-xeroship_sel = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship.png'), (300,300)).convert_alpha()
-zenoship_sel = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship4.png'), (300,300)).convert_alpha()
-furryship_sel = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship5.png'), (300,300)).convert_alpha()
+default_ship_sel = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship3.png'), (400,400)).convert_alpha()
+xeroship_sel = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship.png'), (400,400)).convert_alpha()
+zenoship_sel = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship4.png'), (400,400)).convert_alpha()
+furryship_sel = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship5.png'), (400,400)).convert_alpha()
 
 # SPACESHIP BUTTON FOR SELECTION
-default_ship_bttn = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship3.png'), (150,150)).convert_alpha()
-xeroship_bttn = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship.png'), (150,150)).convert_alpha()
-zenoship_bttn = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship4.png'), (150,150)).convert_alpha()
-furryship_bttn = pygame.transform.scale(pygame.image.load('graphics/Spaceship/ship5.png'), (150,150)).convert_alpha()
+default_ship_bttn = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship3.png'), (150,150)).convert_alpha()
+xeroship_bttn = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship.png'), (150,150)).convert_alpha()
+zenoship_bttn = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship4.png'), (150,150)).convert_alpha()
+furryship_bttn = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship5.png'), (150,150)).convert_alpha()
 
 #ITEMS INV
-copper_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/copper.png'), (100,100)).convert_alpha()
-coal_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/coal.png'), (100,100)).convert_alpha()
-iron_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/iron.png'), (100,100)).convert_alpha()
-silver_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/silver.png'), (100,100)).convert_alpha()
-lavastone_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/lavastone.png'), (100,100)).convert_alpha()
-platinum_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/platinum.png'), (100,100)).convert_alpha()
-frost_crystal_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/frost crystal.png'), (100,100)).convert_alpha()
-emerald_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/emerald.png'), (100,100)).convert_alpha()
-purple_gemstone_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/purple gemstone.png'), (100,100)).convert_alpha()
-iridium_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/iridium.png'), (100,100)).convert_alpha()
-gold_inv = pygame.transform.scale(pygame.image.load('graphics/Ores/gold.png'), (100,100)).convert_alpha()
-fuel_inv = fuel_craft = pygame.transform.scale(pygame.image.load('graphics/Objects/fuel.png'),(100,120)).convert_alpha()
+copper_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/copper.png'), (100,100)).convert_alpha()
+coal_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/coal.png'), (100,100)).convert_alpha()
+iron_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/iron.png'), (100,100)).convert_alpha()
+silver_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/silver.png'), (100,100)).convert_alpha()
+lavastone_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/lavastone.png'), (100,100)).convert_alpha()
+platinum_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/platinum.png'), (100,100)).convert_alpha()
+frost_crystal_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/frost crystal.png'), (100,100)).convert_alpha()
+emerald_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/emerald.png'), (100,100)).convert_alpha()
+purple_gemstone_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/purple gemstone.png'), (100,100)).convert_alpha()
+iridium_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/iridium.png'), (100,100)).convert_alpha()
+gold_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Ores/gold.png'), (100,100)).convert_alpha()
+fuel_inv = pygame.transform.smoothscale(pygame.image.load('graphics/Objects/fuel.png'),(100,120)).convert_alpha()
 # CRAFTING INV
-fuel_craft = pygame.transform.scale(pygame.image.load('graphics/Objects/fuel.png'),(100,120)).convert_alpha()
-coin_craft = pygame.transform.scale(pygame.image.load('graphics/Objects/gold.png'),(100,100)).convert_alpha()
+fuel_craft = pygame.transform.smoothscale(pygame.image.load('graphics/craft/gas.png'),(150,150)).convert_alpha()
+coin_craft = pygame.transform.smoothscale(pygame.image.load('graphics/craft/coin.png'),(150,150)).convert_alpha()
 
 #GACHA PRIZES
 furryship_gacha_banner = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship5.png'), (350,350)).convert_alpha()
 zenoship_gacha_banner = pygame.transform.smoothscale(pygame.image.load('graphics/Spaceship/ship4.png'), (350,350)).convert_alpha()
 
 #FONTS
-gui_font = pygame.font.Font('font/LM.otf', 20)
+gui_font = pygame.font.Font('font/subatomic.ttf', 20)
 item_gui_font = pygame.font.Font('font/LM.otf', 16)
 
 #STATE AND RANDOM THINGS
@@ -572,9 +602,25 @@ def game_modes():
     menu_background_group.draw(screen)
     menu_background_group.update()
 
+energy_core = pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/energy_core.png") , (50,50)).convert_alpha()
+
 def game_modes_ui():
-    if research_shop_button.draw():
-        pass
+    font = pygame.font.Font('font/gacha.ttf',20)
+    text = font.render(f"{others_data["energy_core"]["current_amount"]}" , True , "white")
+    pos_x = screen_width - energy_core.get_width() - 100
+    pos_y = 10 
+    gap = 2
+    new_rect_x = pos_x + energy_core.get_width() + 1
+    new_rect_y = pos_y + 10
+    pygame.draw.rect(screen , "black" , [new_rect_x , new_rect_y , 50 , 30])
+    pygame.draw.rect(screen , "white" , [new_rect_x , new_rect_y , 50 , 30] , 1 )
+    screen.blit(energy_core , (pos_x ,pos_y))
+    pygame.draw.rect(screen , "white" , [pos_x - gap , pos_y - gap , energy_core.get_width() + gap * 2 , energy_core.get_height() + gap * 2 ] , 1 )
+    text_x = new_rect_x + 4
+    text_y = new_rect_y +  ( 30 - text.get_height() )//2
+    screen.blit(text , (text_x , text_y ))
+    # if research_shop_button.draw():
+    #     pass
 
 def header(text,text_color = 'black',rect_color = 'white',outline_color = 'black',font_size = 40,y_pos = 20):
     font = pygame.font.Font('font/gacha.ttf',font_size)
@@ -603,17 +649,17 @@ def loading_animation(update):
 
 
 # LOAD PICTURES FOR BUTTON
-backward_btn_img = pygame.transform.scale(pygame.image.load('graphics/Buttons/Backward_BTN.png'), (64,64)).convert_alpha()
-forward_btn_img = pygame.transform.scale(pygame.image.load('graphics/Buttons/Forward_BTN.png'), (64,64)).convert_alpha()
-music_increase = pygame.transform.scale(pygame.image.load('graphics/Buttons/music_increse.png'), (50,50)).convert_alpha()
-music_decrease = pygame.transform.scale(pygame.image.load('graphics/Buttons/music_decrease.png'), (50,50)).convert_alpha()
-sfx_increase = pygame.transform.scale(pygame.image.load('graphics/Buttons/sfx_increase.png'), (50,50)).convert_alpha()
-sfx_decrease = pygame.transform.scale(pygame.image.load('graphics/Buttons/sfx_decrease.png'), (50,50)).convert_alpha()
-o2_refill_button = pygame.transform.scale(pygame.image.load('graphics/Buttons/o2_refill.png'), (200,60)).convert_alpha()
-fuel_refill_button = pygame.transform.scale(pygame.image.load('graphics/Buttons/fuel_refill.png'), (200,60)).convert_alpha()
-ba_refill_button = pygame.transform.scale(pygame.image.load('graphics/Buttons/ba_refill.png'), (200,60)).convert_alpha()
-add_icon =  pygame.transform.scale(pygame.image.load('graphics/Templates/add_icon.png'), (200,200)).convert_alpha()
-craft_button_template = pygame.transform.scale(pygame.image.load('graphics/Buttons/btn_template.png'), (160,45)).convert_alpha()
+backward_btn_img = pygame.transform.smoothscale(pygame.image.load('graphics/Buttons/Backward_BTN.png'), (64,64)).convert_alpha()
+forward_btn_img = pygame.transform.smoothscale(pygame.image.load('graphics/Buttons/Forward_BTN.png'), (64,64)).convert_alpha()
+music_increase = pygame.transform.smoothscale(pygame.image.load('graphics/Buttons/music_increse.png'), (50,50)).convert_alpha()
+music_decrease = pygame.transform.smoothscale(pygame.image.load('graphics/Buttons/music_decrease.png'), (50,50)).convert_alpha()
+sfx_increase = pygame.transform.smoothscale(pygame.image.load('graphics/Buttons/sfx_increase.png'), (50,50)).convert_alpha()
+sfx_decrease = pygame.transform.smoothscale(pygame.image.load('graphics/Buttons/sfx_decrease.png'), (50,50)).convert_alpha()
+o2_refill_button = pygame.transform.smoothscale(pygame.image.load('graphics/Buttons/o2_refill.png'), (200,60)).convert_alpha()
+fuel_refill_button = pygame.transform.smoothscale(pygame.image.load('graphics/Buttons/fuel_refill.png'), (200,60)).convert_alpha()
+ba_refill_button = pygame.transform.smoothscale(pygame.image.load('graphics/Buttons/ba_refill.png'), (200,60)).convert_alpha()
+add_icon =  pygame.transform.smoothscale(pygame.image.load('graphics/Templates/add_icon.png'), (200,200)).convert_alpha()
+craft_button_template = pygame.transform.smoothscale(pygame.image.load('graphics/Buttons/btn_template.png'), (160,45)).convert_alpha()
 
 # PICTURE BUTTONS
 class Picture_Button:
@@ -756,8 +802,7 @@ class Rect_Button:
 
 
 # JOUNEY_BUTTONS
-dailies_button = Rect_Button(screen,120,30,10,100,"Dailies","#FFFFFF","#FFC107","black",25)
-event_button = Rect_Button(screen,120,30,10,200,"Event","#FFFFFF","#FFC107","black",25)
+
 # all the back buttons
 menu_btn = Rect_Button(screen,80,30,10,screen_height - 40,"Menu","white","#00ffa6","black",20,"black")
 menu_back_button = Rect_Button(screen,80,30,10,screen_height - 40,"Back","white","#00ff79","black",20,"black")
@@ -839,8 +884,8 @@ crafting_button = Rect_Button(screen,200,60,50,450,'Crafting','yellow','red','bl
 
 #craft buttons
 craft_button_x = screen.get_width() * 0.28125
-gold_craft_btn = Rect_Button(screen,150,45,craft_button_x,320,"Craft","green",'yellow','black')
-fuel_craft_btn = Rect_Button(screen,150,45,craft_button_x*2,320,"Craft","green",'yellow','black')
+gold_craft_btn = Rect_Button(screen,155,45,craft_button_x,300,"Craft","green",'yellow','black')
+fuel_craft_btn = Rect_Button(screen,155,45,craft_button_x*2,300,"Craft","green",'yellow','black')
 #item inventory buttons
 item_inv_btn_x = (screen.get_width() - 100)//2
 item_inv_btn_y = screen.get_height() - 40
@@ -848,14 +893,14 @@ next_button = Rect_Button(screen,100,30,item_inv_btn_x,item_inv_btn_y,'Next','ye
 previous_button = Rect_Button(screen,100,30,item_inv_btn_x,item_inv_btn_y,'Prev','yellow','red','black',20)
 
 # PAUSE MENU BUTTONS
-resume_button = Rect_Button(screen, 200 , 60 , 100,100 , 'Resume' , 'pink' , 'magenta' , 'black')
-menu_button = Rect_Button(screen, 200 , 60 , 100,200 , 'Menu' , 'pink' , 'magenta' , 'black')
+resume_button = Rect_Button(screen, 200, 60, 100, 100, 'Resume', '#001a33', '#0099ff', '#ccf2ff',  35 , 'white')  
+menu_button = Rect_Button(screen, 200, 60, 100, 200, 'Menu', '#4d0066', '#b366ff', '#f2e6ff' , 35 , 'white')
 
 # MODES BUTTONS
-infinity_button = Rect_Button(screen , 200 , 60 , 100, 100 , 'Infinity' , 'white' , 'orangered' , 'black', 30 )
-research_button = Rect_Button(screen , 200 , 60 , 100, 200 , 'Research' , 'white' , 'orangered' , 'black' , 30)
-campaign_button = Rect_Button(screen , 200 , 60 , 100, 300 , 'Campaign' , 'white' , 'orangered' , 'black' , 30)
-research_shop_button = Rect_Button(screen , 200 , 60 , 100, 400 , 'Shop' , 'white' , 'orangered' , 'black' , 30)
+infinity_button = Rect_Button(screen, 200, 60, 100, 100, 'Infinity', '#1a1a3a', '#6d8cff', '#b3e0ff', 30 , 'white')  
+research_button = Rect_Button(screen, 200, 60, 100, 200, 'Research', '#2e1a47', '#9c42f5', '#f2e6ff', 30 , 'white')  
+campaign_button = Rect_Button(screen, 200, 60, 100, 300, 'Campaign', '#0d0221', '#ff2a6d', '#ffffff', 30 , 'white')  
+# research_shop_button = Rect_Button(screen , 200 , 60 , 100, 400 , 'Shop' , 'white' , 'orangered' , 'black' , 30)
 # MAIN MENU BUTTONS
 class Button:
     def __init__(self,text,width,height,pos,state,elevation,action,result,bought,sold,original_top,top_color,bottom_color,text_color,hover_color):
@@ -925,13 +970,25 @@ class Button:
 
 
 
-# MENU BUTTONS
-game_mode_button = Button('Game Modes',200,60,((screen.get_width() - 200)//2,100),State.MODES,6,None,None,None,None,'magenta','magenta','gray','black','cyan')
-journey_button = Button('Journey',200,60,((screen.get_width() - 200)//2,400),State.JOURNEY ,6,None,None,None,None,'magenta','magenta','gray','black','cyan')
-inventory_button = Button('Inventory',200,60,((screen.get_width() - 200)//2,300),State.ITEMS_INV,6,None,None,None,None,'magenta','magenta','gray','black','cyan')
-shop_button = Button('Shop',200,60,((screen.get_width() - 200)//2,200),State.SHOP,6,None,None,None,None,'magenta','magenta','gray','black','cyan')
-settings_button = Button('Settings',200,60,((screen.get_width() - 200)//2,500),State.SETTINGS,6,None,None,None,None,'magenta','magenta','gray','black','cyan')
-quit_button = Button('Quit',200,60,((screen.get_width() - 200)//2,600),State.QUIT,6,None,None,None,None,'magenta','magenta','gray','black','cyan')
+# # MENU BUTTONS  
+# game_mode_button = Button('Game Modes',200,60,((screen.get_width() - 200)//2,100),State.MODES,6,None,None,None,None,'#474ab3','#474ab3','#6d8cff','#e6f7ff','#8a4fff')  
+# journey_button = Button('Journey',200,60,((screen.get_width() - 200)//2,400),State.JOURNEY,6,None,None,None,None,'#474ab3','#474ab3','#6d8cff','#e6f7ff','#8a4fff')  
+# inventory_button = Button('Inventory',200,60,((screen.get_width() - 200)//2,300),State.ITEMS_INV,6,None,None,None,None,'#474ab3','#474ab3','#6d8cff','#e6f7ff','#8a4fff')  
+# shop_button = Button('Shop',200,60,((screen.get_width() - 200)//2,200),State.SHOP,6,None,None,None,None,'#474ab3','#474ab3','#6d8cff','#e6f7ff','#8a4fff')  
+# settings_button = Button('Settings',200,60,((screen.get_width() - 200)//2,500),State.SETTINGS,6,None,None,None,None,'#474ab3','#474ab3','#6d8cff','#e6f7ff','#8a4fff')  
+# quit_button = Button('Quit',200,60,((screen.get_width() - 200)//2,600),State.QUIT,6,None,None,None,None,'#ff4d6d','#ff4d6d','#ff8fa3','#ffffff','#cc0044')  
+
+dailies_button = Button('Dailies' , 150 , 50 , (10 ,100 ), State.JOURNEY , 6 , None , None , None , None , "#474ab3" , "#474ab3" , "#6d8cff" , "#e6f7ff","#8a4fff")
+event_button = Button('Event' , 150 , 50 , (10 ,200 ), State.EVENT , 6 , None , None , None , None , "#474ab3" , "#474ab3" , "#6d8cff" , "#e6f7ff","#8a4fff")
+
+game_mode_button = Button('Game Modes',200,60,((screen.get_width() - 200)//2,100),State.MODES,6,None,None,None,None,'#474ab3','#474ab3','#6d8cff','#e6f7ff','#8a4fff')
+journey_button = Button('Journey',200,60,((screen.get_width() - 200)//2,400),State.JOURNEY,6,None,None,None,None,'#3a8fb7','#3a8fb7','#66c2ff','#e6f7ff','#5cd1ff')
+inventory_button = Button('Inventory',200,60,((screen.get_width() - 200)//2,300),State.ITEMS_INV,6,None,None,None,None,'#7b3fa1','#7b3fa1','#bf80ff','#f5e6ff','#d580ff')
+shop_button = Button('Shop',200,60,((screen.get_width() - 200)//2,200),State.SHOP,6,None,None,None,None,'#b34747','#b34747','#ff6666','#ffe6e6','#ff9999')
+settings_button = Button('Settings',200,60,((screen.get_width() - 200)//2,500),State.SETTINGS,6,None,None,None,None,'#3fa162','#3fa162','#66ff99','#e6fff2','#80ffaa')
+# quit_button = Button('Quit',200,60,((screen.get_width() - 200)//2,600),State.QUIT,6,None,None,None,None,'#a14f3f','#a14f3f','#ff8566','#fff0e6','#ffb399')
+quit_button = Button('Quit',200,60,((screen.get_width() - 200)//2,600),State.QUIT,6,None,None,None,None,'#cc0044','#cc0044','#ff8fa3','#ffffff','#ff4d6d')  
+
 
 
 yes_button = Button('Yes',80,30,((screen.get_width() - 80)//2 - 100,(screen.get_height() - 30)//2),State.PLANETERY_LOADING,6,None,None,None,None,'yellow','yellow','gray','black','red')
@@ -1067,11 +1124,109 @@ class MusicDisk:
 
 music_disk = MusicDisk()
 
+class Profile():
+    def __init__(self, data):
+        self.data = data
+        self.size = 65
+        self.margin = 250
+        self.continent = str(get_localzone()).split('/')[0]
+        # Profile data
+        self.username = self.data['profile']['username']
+        self.bio = self.data['profile']['bio']
+        self.current_level = self.data['profile']['current_level']
+        self.max_level = self.data['profile']['max_level']
+        self.current_xp = self.data['profile']['current_xp']
+        self.xp_per_level = self.data['profile']['xp_per_level']
+        self.xp_multiplier = self.data['profile']['xp_multiplier']
+        # -----------------------------------------------
+        self.font = pygame.font.Font('font/gacha.ttf', 20)
+        # self.username_text = self.font.render(f"Name - {self.username}", True, 'white')
+        # self.level_text = self.font.render(f"Level - {self.current_level}", True, 'white')
+        self.icon = pygame.transform.smoothscale(pygame.image.load('graphics/icons/0.png') , (self.size,self.size)).convert_alpha()
+        self.pos_x = screen.get_width() - self.margin
+        self.pos_y = 20
+        self.gap = 6
+    def draw_profile(self):
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pressed = pygame.mouse.get_pressed()[0]
+
+        # Background box
+        bg_rect = pygame.Rect(
+            (self.pos_x - self.gap , self.pos_y - self.gap),
+            (self.size + (self.margin - (self.size + 10)), self.size + self.gap * 2)
+        )
+        pygame.draw.rect(screen , 'black' , bg_rect  , 0 , 8 )
+        pygame.draw.rect(screen , 'cyan' , bg_rect , 2,  8)
+
+        # Icon
+        screen.blit(self.icon , (self.pos_x , self.pos_y))
+
+        # 🔥 Render fresh text every frame
+        username_text = self.font.render(f"Name - {self.username}", True, 'white')
+        level_text = self.font.render(f"Level - {self.current_level}", True, 'white')
+
+        # Draw text
+        screen.blit(username_text , (self.pos_x + self.icon.get_width() + self.gap , self.pos_y))
+        screen.blit(level_text , (self.pos_x + self.icon.get_width() + self.gap , self.pos_y + username_text.get_height() + self.gap))
+
+        # XP bar
+        xp_bar_width = 150
+        xp_bar_height = 10
+        current_xp_bar_width = (self.current_xp / self.xp_per_level) * xp_bar_width
+        cap_width = min(current_xp_bar_width , xp_bar_width)
+
+        bg_xp_bar = pygame.Rect(
+            (self.pos_x + self.icon.get_width() + 6 , self.pos_y + username_text.get_height() + self.gap * 2 + level_text.get_height()),
+            (xp_bar_width , xp_bar_height)
+        )
+        main_xp_bar = pygame.Rect(
+            (self.pos_x + self.icon.get_width() + 6 , self.pos_y + username_text.get_height() + self.gap * 2 + level_text.get_height()),
+            (cap_width , xp_bar_height)
+        )
+
+        pygame.draw.rect(screen , 'red' , bg_xp_bar)
+        pygame.draw.rect(screen , 'green' , main_xp_bar)
+
+        # Click detection (if needed later)
+        if mouse_pressed and bg_rect.collidepoint(mouse_pos):
+            pass
+
+    def add_xp(self, amount):
+        # Update both the attributes AND the dict
+        self.current_xp += amount
+        self.data['profile']['current_xp'] = self.current_xp
+
+        self.level_up()
+
+    def level_up(self):
+        while self.current_xp >= self.xp_per_level and self.current_level < self.max_level:
+            # Subtract the XP needed for this level
+            self.current_xp -= self.xp_per_level
+            self.current_level += 1
+            self.xp_multiplier = round(self.xp_multiplier + 0.1, 1)
+            self.xp_per_level = int(self.xp_per_level * self.xp_multiplier)
+            self.data['profile']['current_level'] = self.current_level
+            self.data['profile']['current_xp'] = self.current_xp
+            self.data['profile']['xp_multiplier'] = self.xp_multiplier
+            self.data['profile']['xp_per_level'] = self.xp_per_level
+            print(f"Checking level up... XP: {self.current_xp}/{self.xp_per_level}, Level: {self.current_level}")
+
+
+
+
+
+
+
+
+
+
+profile = Profile(profile_data)
 
 # INVENTORY MAIN TEMPLATE
 def inventory_template():
     global state
-    screen.blit(inventory_bg,(0,0))
+    menu_background_group.draw(screen)
+    menu_background_group.update()
     border_line = pygame.Rect((0,3),(300,screen_height-3))
     pygame.draw.rect(screen,'slateblue',border_line)
     pygame.draw.rect(screen,'white',border_line,2)
@@ -1096,17 +1251,14 @@ def crafting_inv():
     inventory_template()
     shop_bottombar(gold_icon,game_data["gold"],gold_ore_icon,game_data["gold_ore"],fuel_icon,game_data["fuel"], coal_icon , game_data["coal"])
     header('Crafting','black','lime','white')
-    for i in range(1,3):
-        pygame.draw.rect(screen,'black',[value*i,100,150,200],0,16)
-        pygame.draw.rect(screen,'white',[value*i,100,150,200],2,16)
+    item_list = [coin_craft , fuel_craft]
+    gap = 4
+    for i in range(0,len(item_list)):
+        pos_x = (value * (i+1)) + gap 
+        pos_y = 100 + (200- item_list[i].get_height())//2
+        screen.blit(item_list[i],(pos_x,pos_y))
+        pygame.draw.rect(screen , "white" , [pos_x - gap , pos_y - gap , coin_craft.get_width() + gap * 2 , coin_craft.get_height() + gap * 2] , 2 , 0)
 
-    coin_pos_x = value + (150- coin_craft.get_width())//2
-    coin_pos_y = 100 + (200- coin_craft.get_height())//2
-    screen.blit(coin_craft,(coin_pos_x,coin_pos_y))
-
-    fuel_pos_x = value*2 + (150- fuel_craft.get_width())//2
-    fuel_pos_y = 100 + (200- fuel_craft.get_height())//2
-    screen.blit(fuel_craft,(fuel_pos_x,fuel_pos_y))
     if menu_back_button.draw():
         state = State.MENU
 
@@ -1214,6 +1366,60 @@ def ships_inv():
         saved_ship = 3
         update_all_damage()
 
+defaultship_inv = pygame.transform.smoothscale(pygame.image.load("graphics/Spaceship/ship3.png") , (500,500)).convert_alpha()
+xeroship_inv = pygame.transform.smoothscale(pygame.image.load("graphics/Spaceship/ship.png") , (500,500)).convert_alpha()
+zenoship_inv = pygame.transform.smoothscale(pygame.image.load("graphics/Spaceship/ship4.png") , (500,500)).convert_alpha()
+furryship_inv = pygame.transform.smoothscale(pygame.image.load("graphics/Spaceship/ship5.png") , (500,500)).convert_alpha()
+next_spaceship_btn_x = screen.get_width() - (80 + 100)
+prev_spaceship_btn_x = 300 + 100
+both_spaceship_btn_y = (screen.get_height() + 80)//2
+# Deep space blue/purple theme
+next_spaceship_btn = Rect_Button(screen, 80, 80, next_spaceship_btn_x, both_spaceship_btn_y, ">", "#F9A826", "#FF8A00", "#2D334A", 100)
+prev_spaceship_btn = Rect_Button(screen, 80, 80, prev_spaceship_btn_x, both_spaceship_btn_y, "<", "#F9A826", "#FF8A00", "#2D334A", 100)
+spaceship_enable_btn = Rect_Button(screen, 200, 60, (300+screen.get_width()-200)//2, (screen.get_height() - 100),"ENABLE", "#18A558", "#0F8D4A", "#F1F2EE", 30
+)
+
+# Enabled button: Blue color scheme for active state
+spaceship_enabled_btn = Rect_Button(screen, 200, 60, (300+screen.get_width()-200)//2, (screen.get_height() - 100), "ENABLED", "#3D7BFA", "#2B5FCC", "#F1F2EE", 30
+)
+spaceship_na_btn = Rect_Button(screen, 200, 60, (300+screen.get_width()-200)//2, (screen.get_height() - 100), "N/A", "#3D7BFA", "#2B5FCC", "#F1F2EE", 30
+)
+
+spaceship_index = game_data['spaceship']
+def ships_inv():
+    global state,game_data,slot_one,saved_ship,upgrade_instance, spaceship_index
+    inventory_template()
+    spaceship_list = [defaultship_inv , xeroship_inv , zenoship_inv , furryship_inv ]
+    ships_owned = [ defaultship_owned , game_data['xeroship_owned'] , game_data['zenoship_owned'] , game_data['furryship_owned'] ]
+    starting_x = 300
+    upgrade_instance = None
+    if next_spaceship_btn.draw():
+        if spaceship_index < len(spaceship_list) - 1:
+            spaceship_index += 1
+        else:
+            spaceship_index = 0
+
+    if prev_spaceship_btn.draw():
+        if spaceship_index > 0:
+            spaceship_index -= 1
+        else:
+            spaceship_index = len(spaceship_list) - 1
+    if game_data['spaceship'] == spaceship_index:
+        spaceship_enabled_btn.draw()
+    else:
+        if ships_owned[spaceship_index]:
+            if spaceship_enable_btn.draw():
+                game_data["spaceship"] = spaceship_index
+                slot_one = spaceship_index
+                saved_ship = spaceship_index
+                update_all_damage()
+        else:
+            spaceship_na_btn.draw()
+    pos_x = (starting_x + screen.get_width() - defaultship_inv.get_width())//2
+    pos_y = (screen.get_height() - defaultship_inv.get_height())//2
+    screen.blit(spaceship_list[spaceship_index] , (pos_x , pos_y))
+
+
 class Upgrade:
     def __init__(self, screen, data, image):
         self.screen = screen
@@ -1233,23 +1439,23 @@ class Upgrade:
 
         self.upgrades = {
             "plasma_cannon": {
-                "image": pygame.transform.scale(pygame.image.load("graphics/upgrades/plasma_cannon.png"), (100, 100)).convert_alpha(),
+                "image": pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/plasma_cannon.png"), (100, 100)).convert_alpha(),
                 "rect": self.cannon_slot,
             },
             "laser_beam": {
-                "image": pygame.transform.scale(pygame.image.load("graphics/upgrades/laser_beam.png"), (100, 100)).convert_alpha(),
+                "image": pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/laser_beam.png"), (100, 100)).convert_alpha(),
                 "rect": self.cannon_slot,
             },
             "launch_thruster" : {
-            "image": pygame.transform.scale(pygame.image.load("graphics/upgrades/launch_thruster.png"), (100, 100)).convert_alpha(),
+            "image": pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/launch_thruster.png"), (100, 100)).convert_alpha(),
             "rect": self.thruster_slot,
             },
             "life_thruster" : {
-            "image": pygame.transform.scale(pygame.image.load("graphics/upgrades/life_thruster.png"), (100, 100)).convert_alpha(),
+            "image": pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/life_thruster.png"), (100, 100)).convert_alpha(),
             "rect": self.thruster_slot,
             }
         }
-        self.celestial_stone = pygame.transform.scale(pygame.image.load("graphics/upgrades/celestial_stone.png"),(100,100)).convert_alpha()
+        self.celestial_stone = pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/celestial_stone.png"),(100,100)).convert_alpha()
         self.celestial_stone_rect = self.celestial_stone.get_rect()
         self.minus_button = Rect_Button(screen,40,40,320,(screen_height - 170) + 40 ,"-","white","cyan","black",30)
         self.plus_button = Rect_Button(screen,40,40,520,(screen_height - 170) + 40 ,"+","white","cyan","black",30)
@@ -1257,7 +1463,7 @@ class Upgrade:
         self.celestial_stone_amount = 0
         self.levelup_stone_needed = 0
 
-        self.nova_core = pygame.transform.scale(pygame.image.load("graphics/upgrades/nova_core.png"),(100,100)).convert_alpha()
+        self.nova_core = pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/nova_core.png"),(100,100)).convert_alpha()
         self.nova_core_rect = self.celestial_stone.get_rect()
         self.ascend_button = Rect_Button(screen,200,40,330,screen_height - 45,"Ascend","cyan","gold","black")
         self.nova_core_amount = 0
@@ -1435,7 +1641,7 @@ def upgrade_menu(spaceship):
             'graphics/Spaceship/ship4.png',
             'graphics/Spaceship/ship5.png',
         ]
-        upgrade_ship_img = pygame.transform.scale(
+        upgrade_ship_img = pygame.transform.smoothscale(
             pygame.image.load(ship_images_list[spaceship]),
             (200, 200)
         ).convert_alpha()
@@ -1468,7 +1674,7 @@ def draw_option(upgrade_name, x, y):
 
     font = pygame.font.Font('font/gacha.ttf', 15)
     gap = 4
-    image = pygame.transform.scale(pygame.image.load(f"graphics/upgrades/{upgrade_name}.png"), (100, 100)).convert_alpha()
+    image = pygame.transform.smoothscale(pygame.image.load(f"graphics/upgrades/{upgrade_name}.png"), (100, 100)).convert_alpha()
     image_rect = image.get_rect(topleft=(x, y))
     screen.blit(image, image_rect)
     pygame.draw.rect(screen, "white", image_rect, 2)
@@ -1760,8 +1966,8 @@ def shop_menu():
         scroll_offset -= event.y * 30
         scroll_offset = max(0, min(scroll_offset, max_scroll))
 
-    screen.fill('black')
-    screen.fill('cyan')  # shop background
+    menu_background_group.draw(screen)
+    menu_background_group.update()
 
 
     scroll_y = -scroll_offset
@@ -1825,6 +2031,7 @@ def shop_menu():
     if game_data["jade"] >= 10000 and not game_data["xeroship_owned"]:
         if buy_xeroship_button.draw():
             game_data["xeroship_owned"] = True
+            game_data["jade"] -= 10000
         buy_xeroship_button.hover('Buy Xeroship by spending 10000 jade', 'below', 20)
     elif game_data["xeroship_owned"]:
         sold_xeroship_button.draw()
@@ -1891,24 +2098,24 @@ def spacestation_menu():
 
 
 gacha_prize = {
-    "iron": [pygame.transform.scale(pygame.image.load("graphics/gemstone/iron.png"), (200, 200)),"iron","black"],
-    "copper": [pygame.transform.scale(pygame.image.load("graphics/gemstone/copper.png"), (200, 200)),"copper","black"],
-    "silver": [pygame.transform.scale(pygame.image.load("graphics/gemstone/silver.png"), (200, 200)),"silver","black"],
-    "coal": [pygame.transform.scale(pygame.image.load("graphics/gemstone/coal.png"), (200, 200)),"coal","black"],
-    "gold_ore": [pygame.transform.scale(pygame.image.load("graphics/gemstone/gold_ore.png"), (200, 200)),"gold ore","black"],
-    "lavastone": [pygame.transform.scale(pygame.image.load("graphics/gemstone/lavastone.png"), (200, 200)),"lavastone","purple"],
-    "platinum": [pygame.transform.scale(pygame.image.load("graphics/gemstone/platinum.png"), (200, 200)),"platinum","purple"],
-    "frost crystal": [pygame.transform.scale(pygame.image.load("graphics/gemstone/frost crystal.png"), (200, 200)),"frost crystal","purple"],
-    "purple gemstone": [pygame.transform.scale(pygame.image.load("graphics/gemstone/purple gemstone.png"), (200, 200)),"purple gemstone","purple"],
-    "emerald": [pygame.transform.scale(pygame.image.load("graphics/gemstone/emerald.png"), (200, 200)),"emerald","purple"],
-    "iridium": [pygame.transform.scale(pygame.image.load("graphics/gemstone/iridium.png"), (200, 200)),"iridium","purple"],
-    "furryship_owned": [pygame.transform.scale(pygame.image.load("graphics/Spaceship/ship5.png"), (200, 200)),"furry ship","gold"],
-    "zenoship_owned": [pygame.transform.scale(pygame.image.load("graphics/Spaceship/ship4.png"), (200, 200)),"zeno ship","gold"],
-    "laser_beam" : [pygame.transform.scale(pygame.image.load("graphics/upgrades/laser_beam.png"), (200, 200)),"laser beam","gold"],
-    "plasma_cannon" : [pygame.transform.scale(pygame.image.load("graphics/upgrades/plasma_cannon.png"), (200, 200)),"plasma cannon","gold"],
-    "launch_thruster" : [pygame.transform.scale(pygame.image.load("graphics/upgrades/launch_thruster.png"), (200, 200)),"launch thruster","gold"],
-    "life_thruster" : [pygame.transform.scale(pygame.image.load("graphics/upgrades/life_thruster.png"), (200, 200)),"life thruster","gold"],
-    "nova_core" : [pygame.transform.scale(pygame.image.load("graphics/upgrades/nova_core.png"), (200, 200)),"nova core","gold"]
+    "iron": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/iron.png"), (200, 200)),"iron","black"],
+    "copper": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/copper.png"), (200, 200)),"copper","black"],
+    "silver": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/silver.png"), (200, 200)),"silver","black"],
+    "coal": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/coal.png"), (200, 200)),"coal","black"],
+    "gold_ore": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/gold_ore.png"), (200, 200)),"gold ore","black"],
+    "lavastone": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/lavastone.png"), (200, 200)),"lavastone","purple"],
+    "platinum": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/platinum.png"), (200, 200)),"platinum","purple"],
+    "frost crystal": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/frost crystal.png"), (200, 200)),"frost crystal","purple"],
+    "purple gemstone": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/purple gemstone.png"), (200, 200)),"purple gemstone","purple"],
+    "emerald": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/emerald.png"), (200, 200)),"emerald","purple"],
+    "iridium": [pygame.transform.smoothscale(pygame.image.load("graphics/gemstone/iridium.png"), (200, 200)),"iridium","purple"],
+    "furryship_owned": [pygame.transform.smoothscale(pygame.image.load("graphics/Spaceship/ship5.png"), (200, 200)),"furry ship","gold"],
+    "zenoship_owned": [pygame.transform.smoothscale(pygame.image.load("graphics/Spaceship/ship4.png"), (200, 200)),"zeno ship","gold"],
+    "laser_beam" : [pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/laser_beam.png"), (200, 200)),"laser beam","gold"],
+    "plasma_cannon" : [pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/plasma_cannon.png"), (200, 200)),"plasma cannon","gold"],
+    "launch_thruster" : [pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/launch_thruster.png"), (200, 200)),"launch thruster","gold"],
+    "life_thruster" : [pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/life_thruster.png"), (200, 200)),"life thruster","gold"],
+    "nova_core" : [pygame.transform.smoothscale(pygame.image.load("graphics/upgrades/nova_core.png"), (200, 200)),"nova core","gold"]
 }
 
 
@@ -1917,7 +2124,7 @@ class Gacha():
     def __init__(self):
         self.font = pygame.font.Font("font/gacha.ttf", 30)
         self.font2 = pygame.font.Font("font/gacha.ttf", 20)
-        self.bg_image = pygame.transform.scale(pygame.image.load('graphics/Asset_bg/1.png'), (screen_width,screen_height)).convert_alpha()
+        self.bg_image = pygame.transform.smoothscale(pygame.image.load('graphics/Asset_bg/1.png'), (screen_width,screen_height)).convert_alpha()
         self.limited_button = Rect_Button(screen,150,40,25,40,"Limited","white","cyan","black",font_size =22)
         self.permanent_button = Rect_Button(screen,150,40,25,140,"Permanent","white","cyan","black",font_size =22)
         self.powerups_button = Rect_Button(screen,150,40,25,240,"Powerups","white","cyan","black",font_size =22)
@@ -1926,7 +2133,7 @@ class Gacha():
         self.pos_x = (screen.get_width() - furryship_gacha_banner.get_width()) // 2
         self.pos_y = self.position[1] + (400-furryship_gacha_banner.get_height())//2
         self.video = cv2.VideoCapture("wish.mp4")
-        self.powerups_template = pygame.transform.scale(pygame.image.load("graphics/Templates/powerups.png"),(800,400)).convert_alpha()
+        self.powerups_template = pygame.transform.smoothscale(pygame.image.load("graphics/Templates/powerups.png"),(800,400)).convert_alpha()
 
         self.limited_gacha_table = [
             (15, "iron", (50, 100)),
@@ -2168,7 +2375,7 @@ class Background(pygame.sprite.Sprite):
 
         for i in range(1, 24):
             img = pygame.image.load(f'graphics/Backgrounds/{i}.png').convert_alpha()
-            img = pygame.transform.scale(img, (screen_width,screen_height))
+            img = pygame.transform.smoothscale(img, (screen_width,screen_height))
             self.bg_images.append(img)
 
         self.image = random.choice(self.bg_images)
@@ -2201,7 +2408,7 @@ class Background(pygame.sprite.Sprite):
 
     def generate_random_background(self):
         new_image = random.choice(self.bg_images)
-        new_images = pygame.transform.scale(new_image,(screen_width,screen_height))
+        new_images = pygame.transform.smoothscale(new_image,(screen_width,screen_height))
         while new_image == self.image:
             # Keep selecting a new image until it's different
             new_image = random.choice(self.bg_images)
@@ -2216,7 +2423,7 @@ class Menu_Background(pygame.sprite.Sprite):
 
         for i in range(25, 28):
             img = pygame.image.load(f'graphics/Backgrounds/{i}.png').convert_alpha()
-            img = pygame.transform.scale(img, (screen_width,screen_height))
+            img = pygame.transform.smoothscale(img, (screen_width,screen_height))
             self.bg_images.append(img)
 
         self.image = random.choice(self.bg_images)
@@ -2249,7 +2456,7 @@ class Menu_Background(pygame.sprite.Sprite):
 
     def generate_random_background(self):
         new_image = random.choice(self.bg_images)
-        new_images = pygame.transform.scale(new_image,(screen_width,screen_height))
+        new_images = pygame.transform.smoothscale(new_image,(screen_width,screen_height))
         while new_image == self.image:
             # Keep selecting a new image until it's different
             new_image = random.choice(self.bg_images)
@@ -2260,7 +2467,7 @@ class Spaceship(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.img = default_ship
-        self.image = pygame.transform.scale(self.img,(100,100))
+        self.image = pygame.transform.smoothscale(self.img,(100,100))
         self.rect = self.image.get_rect()
         self.pos_x = 650
         self.pos_y = 600
@@ -2350,16 +2557,12 @@ class Spaceship(pygame.sprite.Sprite):
         exhaust = [Exhaust(self.pos_x,self.pos_y + 20), Exhaust(self.pos_x - 10,self.pos_y + 20), Exhaust(self.pos_x + 10,self.pos_y + 20), Exhaust(self.pos_x - 20,self.pos_y + 20), Exhaust(self.pos_x + 20,self.pos_y + 20) ]
         return exhaust
 
-
-
-
-
-        
+  
 # XEROSHIP SKILL CLASS
 class Xersoship_skill(pygame.sprite.Sprite):
     def __init__(self,pos_x,pos_y):
         super().__init__()
-        self.image =  pygame.transform.scale(pygame.image.load('graphics/Projectiles/shield.png'), (175,300)).convert_alpha() 
+        self.image =  pygame.transform.smoothscale(pygame.image.load('graphics/Projectiles/shield.png'), (175,300)).convert_alpha() 
         self.rect = self.image.get_rect()
         self.pos_x = pos_x
         self.pos_y = pos_y
@@ -2401,16 +2604,9 @@ class Xersoship_skill(pygame.sprite.Sprite):
         if game_data['spaceship'] == 2 and keys[pygame.K_e]:
             self.count = 1
 
-
-
         if self.count >= 1:
             self.kill()
-            self.count = 0
-
-
-
-
-        
+            self.count = 0    
         self.rect.center = (self.pos_x, self.pos_y)
         if self.cooldown != 300:
             self.cooldown += 1
@@ -2425,7 +2621,7 @@ class Projectile(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__()
         self.img = pygame.image.load('graphics/Projectiles/projectile1.png').convert_alpha()
-        self.image = pygame.transform.scale(self.img,(50,100))
+        self.image = pygame.transform.smoothscale(self.img,(50,100))
         self.rect = self.image.get_rect()
         self.rect.center = [pos_x, pos_y]
 
@@ -2436,24 +2632,71 @@ class Projectile(pygame.sprite.Sprite):
 
 # SPACESHIP BULLET CLASS
 class Bullets(pygame.sprite.Sprite):
+    # 👇 Shared color index across all bullets
+    global_color_index = 0  
+
     def __init__(self, pos_x, pos_y):
         super().__init__()
-        self.image = pygame.Surface((5,40)).convert_alpha()
-        self.image.fill("red")
-        self.rect = self.image.get_rect(topleft = (pos_x,pos_y))
+        self.width, self.height = 6, 18
+        self.colors = [
+            (255, 230, 0),   # Yellow
+            (255, 50, 50),   # Red
+            (50, 255, 50),   # Green
+            (50, 50, 255),   # Blue
+            (255, 50, 255),  # Purple
+            (50, 255, 255)   # Cyan
+        ]
+        # 👇 start with the globally chosen color, not default yellow
+        self.color_index = Bullets.global_color_index
+        self.current_color = self.colors[self.color_index]
+        self.create_bullet_image()
+        self.rect = self.image.get_rect(center=(pos_x, pos_y))
 
-    
+        self.c_key_was_pressed = False
+
+    def create_bullet_image(self):
+        self.image = pygame.Surface((self.width+8, self.height+8), pygame.SRCALPHA)
+        for i in range(3, 0, -1):
+            glow_color = (*self.current_color, 50//i)
+            glow_rect = pygame.Rect(4-i, 4-i, self.width+2*i, self.height+2*i)
+            pygame.draw.ellipse(self.image, glow_color, glow_rect)
+        pygame.draw.ellipse(self.image, self.current_color, (4, 4, self.width, self.height))
+        highlight_color = tuple(min(255, c+50) for c in self.current_color)
+        pygame.draw.ellipse(self.image, highlight_color, (5, 5, self.width-2, self.height-4))
+
+    def handle_input(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_c]:
+            if not self.c_key_was_pressed:  # only on key press
+                # cycle global color
+                Bullets.global_color_index = (Bullets.global_color_index + 1) % len(self.colors)
+                self.color_index = Bullets.global_color_index
+                self.current_color = self.colors[self.color_index]
+                self.create_bullet_image()
+            self.c_key_was_pressed = True
+        else:
+            self.c_key_was_pressed = False
+
     def update(self):
+        self.handle_input()  # Check for color change input
         self.rect.y -= 10
-        if self.rect.y <= 0:
+        
+        # Optional trail effect
+        if random.random() < 0.3:
+            trail = pygame.Surface((4, 4), pygame.SRCALPHA)
+            trail_color = (*self.current_color, 100)
+            pygame.draw.circle(trail, trail_color, (2, 2), 2)
+            screen.blit(trail, (self.rect.centerx-2, self.rect.bottom))
+        
+        if self.rect.bottom <= 0:
             self.kill()
 
 # DEFAULT SHIP SKILL CLASS
 class Laser(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__()
-        self.image = pygame.Surface((5,screen_height))
-        self.image.fill('red')
+        self.image = pygame.Surface((10,screen_height))
+        self.image.fill('orangered')
         self.rect = self.image.get_rect()
         self.rect.topright = [pos_x,pos_y]
 
@@ -2465,8 +2708,8 @@ class Laser(pygame.sprite.Sprite):
 class Laser2(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__()
-        self.image = pygame.Surface((5,screen_height))
-        self.image.fill('red')
+        self.image = pygame.Surface((10,screen_height))
+        self.image.fill('orangered')
         self.rect = self.image.get_rect()
         self.rect.topright = [pos_x,pos_y]
 
@@ -2485,7 +2728,7 @@ class Shower(pygame.sprite.Sprite):
         self.angle = 0
         self.size = random.randint(80,160)
         self.img = pygame.image.load('graphics/celestial_body/meteors/2.png')
-        self.scale = pygame.transform.scale(self.img,(self.size,self.size))
+        self.scale = pygame.transform.smoothscale(self.img,(self.size,self.size))
         self.image = self.scale
         self.rect = self.image.get_rect()
         self.pos_x = random.randint(200,1000)
@@ -2612,7 +2855,7 @@ class Pirate(pygame.sprite.Sprite):
         super().__init__()
         img = pygame.image.load(f'graphics/Pirates/{pirate_num}.png').convert_alpha()
         img = pygame.transform.rotate(img, 180)
-        img = pygame.transform.scale(img, (75, 75))
+        img = pygame.transform.smoothscale(img, (75, 75))
 
         self.image =img
         self.rect = self.image.get_rect()
@@ -2640,7 +2883,7 @@ class Health(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.img = pygame.image.load('graphics/hp.png').convert_alpha()
-        self.image = pygame.transform.scale(self.img,(64,64))
+        self.image = pygame.transform.smoothscale(self.img,(64,64))
         self.pos_x = random.randrange(30, screen_width -30  )
         self.pos_y = random.randrange(0,100)
         self.rect = self.image.get_rect()
@@ -2661,7 +2904,7 @@ class Crystal(pygame.sprite.Sprite):
         super().__init__()
         self.size = random.randrange(64,100)
         self.img = pygame.image.load('graphics/crystal_chunk.png').convert_alpha()
-        self.image = pygame.transform.scale(self.img,(self.size,self.size))
+        self.image = pygame.transform.smoothscale(self.img,(self.size,self.size))
         self.rect = self.image.get_rect()
         self.pos_x = random.randrange(-self.size, screen_width)
         self.pos_y = random.randrange(-self.size, -30) 
@@ -2685,7 +2928,7 @@ class Planet(pygame.sprite.Sprite):
         self.number = random.randrange(1, 64)
         self.size = random.randrange(64, 128)
         self.img = pygame.image.load(f'graphics/celestial_body/planets/{self.number}.png').convert_alpha()
-        self.scale = pygame.transform.scale(self.img, (self.size, self.size))
+        self.scale = pygame.transform.smoothscale(self.img, (self.size, self.size))
         self.image = self.scale  
         self.rect = self.image.get_rect()
         self.pos_x = random.randrange(100, screen_width - (self.size +100))
@@ -2799,7 +3042,7 @@ class Wormhole(pygame.sprite.Sprite):
         super().__init__()
         self.number = 1
         self.img = pygame.image.load(f'graphics/Portal/{self.number}.png')
-        self.image = pygame.transform.scale(self.img,(400,300))
+        self.image = pygame.transform.smoothscale(self.img,(400,300))
         self.rect = self.image.get_rect()
         self.pos_x = random.randrange(0 + 200, screen_width - 600)
         self.pos_y = -300 
@@ -2819,7 +3062,7 @@ class Wormhole(pygame.sprite.Sprite):
         else:
             self.number = 1
         self.img = pygame.image.load(f'graphics/Portal/{self.number}.png')
-        self.image = pygame.transform.scale(self.img,(400,300))
+        self.image = pygame.transform.smoothscale(self.img,(400,300))
         self.rect.topright = [self.pos_x,self.pos_y]
 
 # METEOR CLASS
@@ -2830,7 +3073,7 @@ class Meteor(pygame.sprite.Sprite):
         self.number = random.randrange(1,114)
         self.size = random.randrange(64,256)
         self.img = pygame.image.load(f'graphics/celestial_body/meteors/{self.number}.png').convert_alpha()
-        self.scale = pygame.transform.scale(self.img,(self.size,self.size))
+        self.scale = pygame.transform.smoothscale(self.img,(self.size,self.size))
         self.image = self.scale
         self.rect = self.image.get_rect()
         self.pos_x = random.randrange(-self.size, screen_width)
@@ -2865,7 +3108,7 @@ class Spacestation(pygame.sprite.Sprite):
         self.angle = 0
         self.size = random.randrange(100,150)
         self.img = pygame.image.load('graphics/Spacestation.png').convert_alpha()
-        self.scale = pygame.transform.scale(self.img,(self.size,self.size))
+        self.scale = pygame.transform.smoothscale(self.img,(self.size,self.size))
         self.image = self.scale
         self.rect = self.image.get_rect()
         self.pos_x = random.randrange(self.size, screen_width - self.size*2)
@@ -2897,7 +3140,7 @@ class Planetery_bg(pygame.sprite.Sprite):
 
         for i in range(1, 4):
             img = pygame.image.load(f'graphics/Planets_bg/{i}.png').convert_alpha()
-            img = pygame.transform.scale(img, (screen_width,screen_height))
+            img = pygame.transform.smoothscale(img, (screen_width,screen_height))
             self.bg_images.append(img)
         self.image = random.choice(self.bg_images)
         self.rect = self.image.get_rect()
@@ -2929,7 +3172,7 @@ class Planetery_bg(pygame.sprite.Sprite):
 
     def generate_random_background(self):
         new_image = random.choice(self.bg_images)
-        new_images = pygame.transform.scale(new_image,(screen_width,screen_height))
+        new_images = pygame.transform.smoothscale(new_image,(screen_width,screen_height))
         while new_image == self.image:
             # Keep selecting a new image until it's different
             new_image = random.choice(self.bg_images)
@@ -2940,7 +3183,7 @@ class Boss_01_aa(pygame.sprite.Sprite):
         super().__init__()
         self.number = 1
         self.img = pygame.image.load(f'graphics/Projectiles/Effects/pink/{self.number}.png').convert_alpha()  # Set a proper size for the skill surface
-        self.image = pygame.transform.scale(self.img,(40,120))
+        self.image = pygame.transform.smoothscale(self.img,(40,120))
         self.rect = self.image.get_rect()
         self.rect.topleft = [pos_x, pos_y]
     def update(self):
@@ -2950,7 +3193,7 @@ class Boss_01_aa(pygame.sprite.Sprite):
         else:
             self.number = 1
         self.img = pygame.image.load(f'graphics/Projectiles/Effects/pink/{self.number}.png').convert_alpha()  # Set a proper size for the skill surface
-        self.image = pygame.transform.scale(self.img,(40,120))
+        self.image = pygame.transform.smoothscale(self.img,(40,120))
         if self.rect.y > screen_height or self.rect.x > screen_width or self.rect.x < 0:
             self.kill()
 
@@ -2960,7 +3203,7 @@ class Boss_01_ultimate(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.img = pygame.image.load('graphics/Boss/minion.png').convert_alpha()
-        self.image = pygame.transform.scale(self.img,(100,80))
+        self.image = pygame.transform.smoothscale(self.img,(100,80))
         self.rect =  self.image.get_rect()
         self.pos_x = random.randrange(0,screen_width)
         self.pos_y = 0
@@ -2984,7 +3227,7 @@ class Boss_01(pygame.sprite.Sprite):
         super().__init__()
         self.img = pygame.image.load('graphics/Boss/Boss_01.png').convert_alpha()
         self.flip = pygame.transform.rotate(self.img, 360)
-        self.image = pygame.transform.scale(self.flip, (300, 150))
+        self.image = pygame.transform.smoothscale(self.flip, (300, 150))
         self.rect = self.image.get_rect()
         self.pos_x = (screen_width + self.image.get_width()) // 2
         self.pos_y = 50
@@ -3139,7 +3382,7 @@ class Boss_02(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.angle = 0
-        self.image  = pygame.transform.scale(pygame.image.load('graphics/Boss/Boss.png'),(200,200)).convert_alpha()
+        self.image  = pygame.transform.smoothscale(pygame.image.load('graphics/Boss/Boss.png'),(200,200)).convert_alpha()
         self.rect = self.image.get_rect()
         self.width = self.image.get_width()
         self.pos_x = (screen.get_width()- self.width)//2
@@ -3565,19 +3808,19 @@ def reset_game():
 # UPDATE SPACESHIP IMAGE FUNC   
 def update_spaceship():
     if game_data["spaceship"] == 0:
-        spaceship.image = pygame.transform.scale(default_ship,(100,100))
+        spaceship.image = pygame.transform.smoothscale(default_ship,(100,100))
         spaceship_group.draw(screen)
         spaceship.update()
     if game_data["spaceship"] == 1:
-        spaceship.image = pygame.transform.scale(xero_ship,(100,100))
+        spaceship.image = pygame.transform.smoothscale(xero_ship,(100,100))
         spaceship_group.draw(screen)
         spaceship.update()
     if game_data["spaceship"] == 2:
-        spaceship.image = pygame.transform.scale(zeno_ship,(100,100))
+        spaceship.image = pygame.transform.smoothscale(zeno_ship,(100,100))
         spaceship_group.draw(screen)
         spaceship.update()
     if game_data["spaceship"] == 3:
-        spaceship.image = pygame.transform.scale(furry_ship,(100,100))
+        spaceship.image = pygame.transform.smoothscale(furry_ship,(100,100))
         spaceship_group.draw(screen)
         spaceship.update()
 
@@ -3591,8 +3834,8 @@ radiation_limit = 10
 
 def tab_menu():
     global oxygen_limit,radiation_limit,fuel_limit,game_data
-    tab_window = pygame.transform.scale(pygame.image.load('graphics/Asset_bg/Window.png'),(500,500)).convert_alpha()
-    data_window = pygame.transform.scale(pygame.image.load('graphics/Asset_bg/data_bg.png'),(250,500)).convert_alpha()
+    tab_window = pygame.transform.smoothscale(pygame.image.load('graphics/Asset_bg/Window.png'),(500,500)).convert_alpha()
+    data_window = pygame.transform.smoothscale(pygame.image.load('graphics/Asset_bg/data_bg.png'),(250,500)).convert_alpha()
     pos_x = screen.get_width() * 0.17
     pos_y = (screen.get_height()- tab_window.get_height())//2
     pos_x2 = screen.get_width() * 0.83 - data_window.get_width()
@@ -3689,122 +3932,162 @@ def ships_skills():
     update_spaceship()
 
 
+# def selection_func():
+#     global state
+#     # screen.blit(pygame.transform.smoothscale(pygame.image.load('graphics/Asset_bg/9.png'),(screen_width,screen_height)).convert_alpha(),(0,0))
+#     menu_background_group.draw(screen)
+#     menu_background_group.update()
+#     #Header text
+#     header("Select Your Duo",'orange','black','white')
+
+#     # First image positioning
+#     pos_x = screen.get_width()*0.15
+#     mid_pos_y = (screen.get_height() - 400)//2
+#     first_img_x = pos_x + (400 - 300)//2
+#     first_img_y = (screen.get_height()- 300)//2
+#     screen.blit(selection_template,(pos_x,mid_pos_y))
+
+#     # Second image positioning
+#     second_pos_x = screen.get_width() - (screen.get_width()*0.15 + 400)
+#     second_img_x = second_pos_x + (400 - 300)//2
+
+#     #Button
+#     selection_btn = Picture_Button(screen,second_pos_x,mid_pos_y,selection_template)
+
+
+#     if game_data['spaceship'] == 0:
+#         screen.blit(default_ship_sel,(first_img_x,first_img_y))
+#     if game_data['spaceship'] == 1:
+#         screen.blit(xeroship_sel,(first_img_x,first_img_y))
+#     if game_data['spaceship'] == 2:
+#         screen.blit(zenoship_sel,(first_img_x,first_img_y))
+#     if game_data['spaceship'] == 3:
+#         screen.blit(furryship_sel,(first_img_x,first_img_y))
+
+#     # BUTTON LOGIC
+#     if slot_two == None:
+#         if add_icon_btn.draw():
+#             state = State.SELECTION_MENU
+
+#     else:
+#         if selection_btn.draw():
+#             state = State.SELECTION_MENU
+
+#     if forward_btn.draw():
+#         state = State.LOADING
+
+#     if slot_two == 0:
+#         screen.blit(default_ship_sel,(second_img_x,first_img_y))
+
+#     if slot_two == 1:
+#         screen.blit(xeroship_sel,(second_img_x,first_img_y))
+
+#     if slot_two == 2:
+#         screen.blit(zenoship_sel,(second_img_x,first_img_y))
+#     if slot_two == 3:
+#         screen.blit(furryship_sel,(second_img_x,first_img_y))
+
+second_next_spaceship_btn_x = screen.get_width() - 180
+second_prev_spaceship_btn_x = (screen.get_width() - (200 + default_ship_sel.get_width())) - 100
+second_next_spaceship_btn = Rect_Button(screen, 80, 80, second_next_spaceship_btn_x, both_spaceship_btn_y, ">", "#F9A826", "#FF8A00", "#2D334A", 100)
+second_prev_spaceship_btn = Rect_Button(screen, 80, 80, second_prev_spaceship_btn_x, both_spaceship_btn_y, "<", "#F9A826", "#FF8A00", "#2D334A", 100)
+second_spaceship_index = 0
+
 def selection_func():
-    global state
-    # screen.blit(pygame.transform.scale(pygame.image.load('graphics/Asset_bg/9.png'),(screen_width,screen_height)).convert_alpha(),(0,0))
+    global second_spaceship_index, game_data, state, slot_two
     menu_background_group.draw(screen)
     menu_background_group.update()
-    #Header text
-    header("Select Your Duo",'orange','black','white')
+    first_pos_x = 200
+    first_pos_y = (screen.get_height() - default_ship_sel.get_height())//2
+    spaceship_list = [default_ship_sel , xeroship_sel , zenoship_sel , furryship_sel] 
+    ships_owned = [ defaultship_owned , game_data['xeroship_owned'] , game_data['zenoship_owned'] , game_data['furryship_owned'] ]
+    screen.blit(spaceship_list[game_data['spaceship']] , (first_pos_x, first_pos_y))
+    #Second Spaceship Logic
+    if second_next_spaceship_btn.draw():
+        if second_spaceship_index < len(spaceship_list) - 1:
+            second_spaceship_index += 1
+        else:
+            second_spaceship_index = 0
 
-    # First image positioning
-    pos_x = screen.get_width()*0.15
-    mid_pos_y = (screen.get_height() - 400)//2
-    first_img_x = pos_x + (400 - 300)//2
-    first_img_y = (screen.get_height()- 300)//2
-    screen.blit(selection_template,(pos_x,mid_pos_y))
+    if second_prev_spaceship_btn.draw():
+        if second_spaceship_index > 0:
+            second_spaceship_index -= 1
+        else:
+            second_spaceship_index = len(spaceship_list) - 1
 
-    # Second image positioning
-    second_pos_x = screen.get_width() - (screen.get_width()*0.15 + 400)
-    second_img_x = second_pos_x + (400 - 300)//2
+    if ships_owned[second_spaceship_index]:
+        if forward_btn.draw():
+            slot_two = second_spaceship_index
+            update_all_damage()
+            state = State.LOADING
 
-    #Button
-    selection_btn = Picture_Button(screen,second_pos_x,mid_pos_y,selection_template)
-
-
-    if game_data['spaceship'] == 0:
-        screen.blit(default_ship_sel,(first_img_x,first_img_y))
-    if game_data['spaceship'] == 1:
-        screen.blit(xeroship_sel,(first_img_x,first_img_y))
-    if game_data['spaceship'] == 2:
-        screen.blit(zenoship_sel,(first_img_x,first_img_y))
-    if game_data['spaceship'] == 3:
-        screen.blit(furryship_sel,(first_img_x,first_img_y))
-
-    # BUTTON LOGIC
-    if slot_two == None:
-        if add_icon_btn.draw():
-            state = State.SELECTION_MENU
-
-    else:
-        if selection_btn.draw():
-            state = State.SELECTION_MENU
-
-    if forward_btn.draw():
-        state = State.LOADING
-
-    if slot_two == 0:
-        screen.blit(default_ship_sel,(second_img_x,first_img_y))
-
-    if slot_two == 1:
-        screen.blit(xeroship_sel,(second_img_x,first_img_y))
-
-    if slot_two == 2:
-        screen.blit(zenoship_sel,(second_img_x,first_img_y))
-    if slot_two == 3:
-        screen.blit(furryship_sel,(second_img_x,first_img_y))
+    second_pos_x = screen.get_width() - (first_pos_x + default_ship_sel.get_width())
+    second_pos_y = first_pos_y
+    screen.blit(spaceship_list[second_spaceship_index] , (second_pos_x , second_pos_y))
 
 
-def selection_menu():
-    global state,slot_two
-    menu_background_group.draw(screen)
-    menu_background_group.update()
 
-    header('Choose Your Second Spaceship','orange','black','white')
 
-    back_btn = Picture_Button(screen,10,10, backward_btn_img)
+# def selection_menu():
+#     global state,slot_two
+#     menu_background_group.draw(screen)
+#     menu_background_group.update()
 
-    selection_bg = pygame.transform.scale(pygame.image.load('graphics/Templates/selection_bg.png'),(200,200)).convert_alpha()
-    gap = screen.get_width()*0.14
-    #available ships
-    defaultship_btn = Picture_Button(screen,gap,100,selection_bg)
-    xeroship_btn = Picture_Button(screen,gap*2 + 200,100,selection_bg)
-    zenoship_btn = Picture_Button(screen,gap*3 + 400,100,selection_bg)
-    furryship_btn = Picture_Button(screen,gap,450,selection_bg)
+#     header('Choose Your Second Spaceship','orange','black','white')
 
-    #na ships
-    defaultship_na_btn = Picture_Button(screen,gap,100,selection_bg)
-    xeroship_na_btn = Picture_Button(screen,gap*2 + 200,100,selection_bg)
-    zenoship_na_btn = Picture_Button(screen,gap*3 + 400,100,selection_bg)
-    furryship_na_btn = Picture_Button(screen,gap,450,selection_bg)
+#     back_btn = Picture_Button(screen,10,10, backward_btn_img)
 
-    if defaultship_btn.draw():
-        slot_two = 0
-        state = State.SELECTION
-    if game_data['xeroship_owned'] == True:
-        if xeroship_btn.draw():
-            slot_two = 1
-            state = State.SELECTION
-    else:
-        if xeroship_na_btn.draw():
-            pass
-        if xeroship_na_btn.below_hover("You don't own this ship",'red',22):
-            pass
-    if game_data['zenoship_owned'] == True:
-        if zenoship_btn.draw():
-            slot_two = 2
-            state = State.SELECTION
-    else:
-        if zenoship_na_btn.draw():
-            pass
-        if zenoship_na_btn.below_hover("You don't own this ship",'red',22):
-            pass
-    if game_data['furryship_owned'] == True:
-        if furryship_btn.draw():
-            slot_two = 3
-            state = State.SELECTION
-    else:
-        if furryship_na_btn.draw():
-            pass
-        if furryship_na_btn.below_hover("You don't own this ship",'red',22):
-            pass
-    if back_btn.draw():
-        state = State.SELECTION
+#     selection_bg = pygame.transform.smoothscale(pygame.image.load('graphics/Templates/selection_bg.png'),(200,200)).convert_alpha()
+#     gap = screen.get_width()*0.14
+#     #available ships
+#     defaultship_btn = Picture_Button(screen,gap,100,selection_bg)
+#     xeroship_btn = Picture_Button(screen,gap*2 + 200,100,selection_bg)
+#     zenoship_btn = Picture_Button(screen,gap*3 + 400,100,selection_bg)
+#     furryship_btn = Picture_Button(screen,gap,450,selection_bg)
 
-    screen.blit(default_ship_bttn,(gap+(200-150)//2,100+(200-150)//2))
-    screen.blit(xeroship_bttn,(gap*2+200+(200-150)//2,100+(200-150)//2))
-    screen.blit(zenoship_bttn,(gap*3+400+(200-150)//2,100+(200-150)//2))
-    screen.blit(furryship_bttn,(gap+(200-150)//2,450+(200-150)//2))
+#     #na ships
+#     defaultship_na_btn = Picture_Button(screen,gap,100,selection_bg)
+#     xeroship_na_btn = Picture_Button(screen,gap*2 + 200,100,selection_bg)
+#     zenoship_na_btn = Picture_Button(screen,gap*3 + 400,100,selection_bg)
+#     furryship_na_btn = Picture_Button(screen,gap,450,selection_bg)
+
+#     if defaultship_btn.draw():
+#         slot_two = 0
+#         state = State.SELECTION
+#     if game_data['xeroship_owned'] == True:
+#         if xeroship_btn.draw():
+#             slot_two = 1
+#             state = State.SELECTION
+#     else:
+#         if xeroship_na_btn.draw():
+#             pass
+#         if xeroship_na_btn.below_hover("You don't own this ship",'red',22):
+#             pass
+#     if game_data['zenoship_owned'] == True:
+#         if zenoship_btn.draw():
+#             slot_two = 2
+#             state = State.SELECTION
+#     else:
+#         if zenoship_na_btn.draw():
+#             pass
+#         if zenoship_na_btn.below_hover("You don't own this ship",'red',22):
+#             pass
+#     if game_data['furryship_owned'] == True:
+#         if furryship_btn.draw():
+#             slot_two = 3
+#             state = State.SELECTION
+#     else:
+#         if furryship_na_btn.draw():
+#             pass
+#         if furryship_na_btn.below_hover("You don't own this ship",'red',22):
+#             pass
+#     if back_btn.draw():
+#         state = State.SELECTION
+
+#     screen.blit(default_ship_bttn,(gap+(200-150)//2,100+(200-150)//2))
+#     screen.blit(xeroship_bttn,(gap*2+200+(200-150)//2,100+(200-150)//2))
+#     screen.blit(zenoship_bttn,(gap*3+400+(200-150)//2,100+(200-150)//2))
+#     screen.blit(furryship_bttn,(gap+(200-150)//2,450+(200-150)//2))
 
 
 def check_dailies():
@@ -3828,6 +4111,7 @@ def check_dailies():
         quest_data["dailies"]["emerald_obtained"] = 0
         quest_data["dailies"]["crafted_item"] = 0
         quest_data["dailies"]["wish_completed"] = 0
+        others_data['energy_core']['current_amount'] = 500
         quest_data["dailies"]["daily_reset"] = False
 
 
@@ -3888,7 +4172,8 @@ def progress_bar(value,data1,data2,pos_y,ratio,text,reward,data_tree="event"):
             pass
 
 def dailies_page():
-    screen.blit(shop_bg,(0,0))
+    menu_background_group.draw(screen)
+    menu_background_group.update()
     header("Dailies","black","#FFC107","white")
     progress_bar(0,"target_playtime","playtime",100,0.9,f"Play 15 minutes (Minutes: {int(quest_data['dailies']['playtime']//60)})",50,"dailies")
     progress_bar(0,'pirates_kills',"pirate_killed",200,1,f"Kill 1000 pirates (Progress: {int(quest_data['dailies']['pirate_killed']//10)}%)",50,"dailies")
@@ -3900,7 +4185,8 @@ def dailies_page():
     
 
 def event_page():
-    screen.blit(shop_bg,(0,0))
+    menu_background_group.draw(screen)
+    menu_background_group.update()
     header("Event","black","#FFC107","white")
     progress_bar(0,'pirates_kills',"pirate_killed",100,100,f"Kill 100000 pirates (Progress: {int(quest_data['event']['pirate_killed']//1000)}%)",500)
     progress_bar(0,'planet_discover',"planet_discovered",200,1,f"Discover 1000 planets (Progress: {int(quest_data['event']['planet_discovered']//10)}%)",500)
@@ -3974,7 +4260,9 @@ def pirates_spaceship_collisions():
         create_explosion(explosion_group, pirate.rect.topleft[0],pirate.rect.topleft[1], size=6)
 
     if research_kills > 100:
-        game_data['celestial_stone'] += 1
+        game_data['celestial_stone'] += 10
+        others_data['energy_core']['current_amount'] -= 50
+        profile.add_xp(500)
         state = State.REWARD
 
 
@@ -3984,18 +4272,15 @@ GAME_STATE = [State.ALIVE,State.PLANETERY_ENTER,State.CAMPAIGN,state.RESEARCH]
 def reward_handling():
     global GAME_STATE,research_kills
     if current_state == state.RESEARCH and research_kills > 1:
-        display_reward( 1 , "graphics/upgrades/celestial_stone.png" , state.MENU )
+        display_reward( 10 , "graphics/upgrades/celestial_stone.png" , state.MENU )
 
 
 current_state = None
 def pause_menu(resume_state):
     global state 
     menu_background.generate_random_background()
-    pause_font = pygame.font.Font('font/LM.otf',40)
-    pause_text = pause_font.render('Pause Menu', True, 'lime')
-    screen.blit(pause_bg,(0,0))
-    pygame.draw.rect(screen,'orange',[(screen.get_width() - pause_text.get_width())//2 - 40,10,pause_text.get_width()+ 40*2,pause_text.get_height()],border_radius = 40,width = 2)
-    screen.blit(pause_text,((screen.get_width() - pause_text.get_width())//2 ,10))
+    background_group.draw(screen)
+    background_group.update()
     music_disk.update(pygame.event.get())
     music_disk.draw(screen)
     if resume_button.draw():
@@ -4183,10 +4468,9 @@ while run:
         shop_bottombar(jade_icon,game_data["jade"])
         if menu_back_button.draw():
             state = State.MENU
-        if dailies_button.draw():
-            state = State.JOURNEY
-        if event_button.draw():
-            state = State.EVENT
+        dailies_button.draw()
+        event_button.draw()
+
             
     if state == State.JOURNEY:
         dailies_page()
@@ -4194,10 +4478,8 @@ while run:
         time_until_midnight()
         if menu_back_button.draw():
             state = State.MENU
-        if event_button.draw():
-            state = State.EVENT
-        if dailies_button.draw():
-            state = State.JOURNEY
+        dailies_button.draw()
+        event_button.draw()
 
         # middle_letters('Comming Soon',0,0,40,'red')
     if state == State.PLANETERY_OPTION:
@@ -4221,12 +4503,14 @@ while run:
             state = State.LOADING
 
     if state == State.MENU:
+        profile.level_up()
         menu_background_group.draw(screen)
         menu_background_group.update()
         draw_menu()
         reset_game()
         check_dailies()
         clean_space_screen()
+        profile.draw_profile()
         research_kills = 0
         score = 0
         xeroship_skill_timer = 0
@@ -4276,6 +4560,8 @@ while run:
             state = State.GACHA
     if state == State.SHIPS_INV:
         ships_inv()
+    else:
+        spaceship_index = game_data['spaceship']
     if state == State.UPGRADE_INV:
         upgrade_menu(game_data["spaceship"])
     if state == State.THRUSTER:
