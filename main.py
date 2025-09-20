@@ -6,6 +6,7 @@ from pygame.locals import *
 from scripts.galaxy_planet import *
 from scripts.state import *
 from scripts.space import *
+from scripts.ui_components import *
 from time import time, tzname
 from datetime import datetime, timedelta
 from pypresence import Presence
@@ -28,6 +29,7 @@ def update_rich_presence():
         continent = str(get_localzone()).split('/')[0]  # Get the local timezone
         # Update the rich presence with state and details
         rpc.update(state=continent, details="Exploring The Galaxy", large_image="logo", large_text="Interstellar Pirates", start=time())
+        print("Connected")
     except Exception as e:
         print("Error updating Rich Presence:", e)
 
@@ -131,10 +133,10 @@ quest_data = {
         "target_playtime" : [900,False],
         "pirate_killed": 0,
         "pirates_kills": [1000,False],
-        "lavastone_obtained" : 0,
-        "lavastone_needed" : [2,False],
-        "emerald_obtained" : 0,
-        "emerald_needed" : [2,False],
+        "celestial_stone_used" : 0,
+        "celestial_stone_needed" : [10,False],
+        "energy_core_used" : 0,
+        "energy_core_needed" : [200,False],
         "crafted_item" : 0,
         "craft_needed" : [2,False],
         "wish_completed" : 0,
@@ -462,6 +464,10 @@ oxygen_warning = pygame.mixer.Sound('Sound/WARNINGS/oxygen_warning.wav')
 radiation_warning = pygame.mixer.Sound('Sound/WARNINGS/radiation_warning.wav')
 warning_channel = pygame.mixer.Channel(2)
 
+# SKILL CHANNEL
+furry_ult_sound = pygame.mixer.Sound('Sound/SFX/furry_ult.wav')
+skill_channel = pygame.mixer.Channel(4)
+
 #BGM
 menu_music_list = ["Cosmic Flight","Gravity of Stars","Beyond the Stars","Neon Heartbeat","Chasing Electric Nights","Galaxies Apart"]
 menu_music = pygame.mixer.Sound(f'Sound/BGM/Menu Music/{menu_music_list[game_data["current_song"]]}.mp3')
@@ -474,7 +480,7 @@ def volume_adjustment():
     sfx_channel.set_volume(settings_data["sound"]["sfx"]/100)
     laser_channel.set_volume(settings_data["sound"]["sfx"]/100)
     warning_channel.set_volume(settings_data["sound"]["sfx"] / 50)
-
+    skill_channel.set_volume(settings_data["sound"]["sfx"] / 50)
 
 
 
@@ -872,9 +878,17 @@ forth_item_x = item_spacing * 4 + shop_rect_width * 3
 display_button_x = (screen.get_width() - 200)//2
 seven_sixty_eight_button = Rect_Button(screen,200,60,display_button_x,200,'1368 x 768','mediumspringgreen','cyan','black',25)
 seven_twenty_button = Rect_Button(screen,200,60,display_button_x,400,'1280 x 720','mediumspringgreen','cyan','black',25)
-# SETTING BUTTONS
-sound_button = Rect_Button(screen,200,60,50,50,'Sound','yellow','red','black')
-display_button = Rect_Button(screen,200,60,50,150,'Display','yellow','red','black')
+# Panel Buttons
+sound_button = Rect_Button(screen, 220, 65, 100, 100, 'Sound', '#1B0034', '#8A2BE2', '#EAEAEA' )
+display_button = Rect_Button(screen, 220, 65, 100, 200, 'Display', '#1B0034', '#8A2BE2', '#EAEAEA')
+controls_button = Rect_Button(screen, 220, 65, 100, 300, 'Controls', '#1B0034', '#8A2BE2', '#EAEAEA')
+back_from_setting = Rect_Button(screen, 220, 65, 100, 400, 'Back', '#1B0034', '#8A2BE2', '#EAEAEA')
+panel_new_btn_x = (screen.get_width() - 200)//2
+panel_new_btn_y =  screen_height * 0.9 - 30
+event_button = Rect_Button(screen, 200, 60, panel_new_btn_x - 250, panel_new_btn_y, 'EVENT', '#1B0034', '#8A2BE2', '#EAEAEA' )
+dailies_button = Rect_Button(screen, 200, 60, panel_new_btn_x, panel_new_btn_y, 'DAILIES', '#1B0034', '#8A2BE2', '#EAEAEA')
+back_from_journey = Rect_Button(screen, 200, 60, panel_new_btn_x + 250, panel_new_btn_y, 'BACK', '#1B0034', '#8A2BE2', '#EAEAEA')
+
 # INVENTORY BUTTONS
 items_button = Rect_Button(screen,200,60,50,50,'Items','yellow','red','black')
 ships_button = Rect_Button(screen,200,60,50,150,'Ships','yellow','red','black')
@@ -978,8 +992,8 @@ class Button:
 # settings_button = Button('Settings',200,60,((screen.get_width() - 200)//2,500),State.SETTINGS,6,None,None,None,None,'#474ab3','#474ab3','#6d8cff','#e6f7ff','#8a4fff')  
 # quit_button = Button('Quit',200,60,((screen.get_width() - 200)//2,600),State.QUIT,6,None,None,None,None,'#ff4d6d','#ff4d6d','#ff8fa3','#ffffff','#cc0044')  
 
-dailies_button = Button('Dailies' , 150 , 50 , (10 ,100 ), State.JOURNEY , 6 , None , None , None , None , "#474ab3" , "#474ab3" , "#6d8cff" , "#e6f7ff","#8a4fff")
-event_button = Button('Event' , 150 , 50 , (10 ,200 ), State.EVENT , 6 , None , None , None , None , "#474ab3" , "#474ab3" , "#6d8cff" , "#e6f7ff","#8a4fff")
+# dailies_button = Button('Dailies' , 150 , 50 , (10 ,100 ), State.JOURNEY , 6 , None , None , None , None , "#474ab3" , "#474ab3" , "#6d8cff" , "#e6f7ff","#8a4fff")
+# event_button = Button('Event' , 150 , 50 , (10 ,200 ), State.EVENT , 6 , None , None , None , None , "#474ab3" , "#474ab3" , "#6d8cff" , "#e6f7ff","#8a4fff")
 
 game_mode_button = Button('Game Modes',200,60,((screen.get_width() - 200)//2,100),State.MODES,6,None,None,None,None,'#474ab3','#474ab3','#6d8cff','#e6f7ff','#8a4fff')
 journey_button = Button('Journey',200,60,((screen.get_width() - 200)//2,400),State.JOURNEY,6,None,None,None,None,'#3a8fb7','#3a8fb7','#66c2ff','#e6f7ff','#5cd1ff')
@@ -1147,6 +1161,7 @@ class Profile():
         self.pos_y = 20
         self.gap = 6
     def draw_profile(self):
+        global state
         mouse_pos = pygame.mouse.get_pos()
         mouse_pressed = pygame.mouse.get_pressed()[0]
 
@@ -1189,10 +1204,9 @@ class Profile():
 
         # Click detection (if needed later)
         if mouse_pressed and bg_rect.collidepoint(mouse_pos):
-            pass
+            state = State.PROFILE
 
     def add_xp(self, amount):
-        # Update both the attributes AND the dict
         self.current_xp += amount
         self.data['profile']['current_xp'] = self.current_xp
 
@@ -1212,14 +1226,6 @@ class Profile():
             print(f"Checking level up... XP: {self.current_xp}/{self.xp_per_level}, Level: {self.current_level}")
 
 
-
-
-
-
-
-
-
-
 profile = Profile(profile_data)
 
 # INVENTORY MAIN TEMPLATE
@@ -1227,29 +1233,154 @@ def inventory_template():
     global state
     menu_background_group.draw(screen)
     menu_background_group.update()
-    border_line = pygame.Rect((0,3),(300,screen_height-3))
-    pygame.draw.rect(screen,'slateblue',border_line)
-    pygame.draw.rect(screen,'white',border_line,2)
-    if ships_button.draw():
+    
+    # Draw a sleek side panel with a futuristic design
+    panel_rect = pygame.Rect((0, 0), (300, screen_height))
+    
+    # Main panel with gradient and metallic appearance
+    draw_panel_with_border(panel_rect)
+    
+    # Draw decorative elements
+    draw_decorative_elements(panel_rect)
+    
+    # Draw navigation buttons with icons
+    if draw_nav_button("Ships", 50):
         state = State.SHIPS_INV
-    if items_button.draw():
+    if draw_nav_button("Items", 100):
         state = State.ITEMS_INV
-    if crafting_button.draw():
+    if draw_nav_button("Crafting", 150):
         state = State.CRAFTING
-    if exhaust_button.draw():
+    if draw_nav_button("Exhaust", 200):
         state = State.EXHAUST
-    if upgrades_button.draw():
-       state = State.UPGRADE_INV
-    if menu_back_button.draw():
+    if draw_nav_button("Upgrades", 250):
+        state = State.UPGRADE_INV
+        
+    # Draw back button with special styling
+    if draw_back_button():
         state = State.MENU
+        
+    # Draw resource display
+    draw_resources_panel()
 
+# Helper functions for the UI elements
+def draw_panel_with_border(rect):
+    # Draw panel background with gradient
+    for i in range(rect.height):
+        # Create a blue-to-dark gradient
+        color_value = 40 + int(50 * (i / rect.height))
+        pygame.draw.line(screen, (20, 30, color_value), (0, i), (rect.width, i))
+    
+    # Draw metallic border
+    pygame.draw.rect(screen, (100, 150, 255), rect, 2)
+    
+    # Add some decorative lines
+    pygame.draw.line(screen, (0, 200, 255), (5, 40), (rect.width-5, 40), 1)
+    pygame.draw.line(screen, (0, 150, 255), (10, 45), (rect.width-10, 45), 1)
+    
+    # Add corner decorations
+    draw_corner_elements(rect)
+
+def draw_nav_button(text, y_pos):
+    button_rect = pygame.Rect((20, y_pos), (260, 40))
+    
+    # Draw button with gradient and border
+    pygame.draw.rect(screen, (30, 40, 80), button_rect)
+    pygame.draw.rect(screen, (0, 180, 255), button_rect, 2)
+    
+    # Add hover effect
+    mouse_pos = pygame.mouse.get_pos()
+    if button_rect.collidepoint(mouse_pos):
+        pygame.draw.rect(screen, (60, 100, 180, 100), button_rect)
+        pygame.draw.rect(screen, (0, 220, 255), button_rect, 3)
+    
+    # Draw text
+    font = pygame.font.Font('font/subatomic.ttf', 20)
+    text_surf = font.render(text, True, (200, 230, 255))
+    screen.blit(text_surf, (button_rect.centerx - text_surf.get_width()//2, 
+                           button_rect.centery - text_surf.get_height()//2))
+    
+    # Return True if clicked
+    return button_rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
+
+def draw_back_button():
+    button_rect = pygame.Rect((20, screen_height - 60), (120, 40))
+    
+    # Draw back button with different style
+    pygame.draw.rect(screen, (80, 30, 40), button_rect)
+    pygame.draw.rect(screen, (255, 100, 100), button_rect, 2)
+    
+    # Add hover effect
+    mouse_pos = pygame.mouse.get_pos()
+    if button_rect.collidepoint(mouse_pos):
+        pygame.draw.rect(screen, (120, 50, 60, 100), button_rect)
+        pygame.draw.rect(screen, (255, 150, 150), button_rect, 3)
+    
+    # Draw text
+    font = pygame.font.Font('font/subatomic.ttf', 20)
+    text_surf = font.render("Back", True, (255, 180, 180))
+    screen.blit(text_surf, (button_rect.centerx - text_surf.get_width()//2, 
+                           button_rect.centery - text_surf.get_height()//2))
+    
+    # Return True if clicked
+    return button_rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]
+
+def draw_resources_panel():
+    # Draw resources in a separate panel at the bottom
+    resource_rect = pygame.Rect((20, screen_height - 200), (260, 130))
+    pygame.draw.rect(screen, (20, 30, 60), resource_rect)
+    pygame.draw.rect(screen, (0, 150, 255), resource_rect, 1)
+    
+    # Draw title
+    font =  pygame.font.Font('font/subatomic.ttf', 18)
+    title = font.render("INVENTORY", True, (0, 200, 255))
+    screen.blit(title, (resource_rect.centerx - title.get_width()//2, resource_rect.y + 10))
+    
+    # Draw resources (simplified example)
+    resources = [
+        f"Jade: {game_data['jade']}", f"Gold: {game_data['gold']}", f"Gold Ore: {game_data['gold_ore']}", 
+        f"Coal : {game_data['coal']}", f"Fuel: {game_data['fuel']}", f"Emerald : {game_data['emerald']}"
+    ]
+    
+    small_font = pygame.font.Font('font/subatomic.ttf', 10)
+    for i, resource in enumerate(resources):
+        text = small_font.render(resource, True, (200, 230, 255))
+        x_pos = resource_rect.x + 10 + (i % 2) * 130
+        y_pos = resource_rect.y + 35 + (i // 2) * 20
+        screen.blit(text, (x_pos, y_pos))
+
+def draw_corner_elements(panel_rect):
+    # Draw decorative corner elements
+    corner_size = 15
+    # Top left
+    pygame.draw.line(screen, (0, 200, 255), (5, 5), (corner_size, 5), 2)
+    pygame.draw.line(screen, (0, 200, 255), (5, 5), (5, corner_size), 2)
+    # Top right
+    pygame.draw.line(screen, (0, 200, 255), (panel_rect.width-5, 5), (panel_rect.width-corner_size, 5), 2)
+    pygame.draw.line(screen, (0, 200, 255), (panel_rect.width-5, 5), (panel_rect.width-5, corner_size), 2)
+    # Bottom left
+    pygame.draw.line(screen, (0, 200, 255), (5, panel_rect.height-5), (corner_size, panel_rect.height-5), 2)
+    pygame.draw.line(screen, (0, 200, 255), (5, panel_rect.height-5), (5, panel_rect.height-corner_size), 2)
+    # Bottom right
+    pygame.draw.line(screen, (0, 200, 255), (panel_rect.width-5, panel_rect.height-5), 
+                    (panel_rect.width-corner_size, panel_rect.height-5), 2)
+    pygame.draw.line(screen, (0, 200, 255), (panel_rect.width-5, panel_rect.height-5), 
+                    (panel_rect.width-5, panel_rect.height-corner_size), 2)
+
+def draw_decorative_elements(panel_rect):
+    # Add some sci-fi decorative elements
+    for i in range(5):
+        y_pos = 300 + i * 80
+        pygame.draw.line(screen, (0, 100, 180, 100), (10, y_pos), (panel_rect.width-10, y_pos), 1)
+        # Add small circles as connectors
+        pygame.draw.circle(screen, (0, 180, 255), (15, y_pos), 3)
+        pygame.draw.circle(screen, (0, 180, 255), (panel_rect.width-15, y_pos), 3)
 
 
 def crafting_inv():
     global state
     value = screen.get_width() * 0.28125
     inventory_template()
-    shop_bottombar(gold_icon,game_data["gold"],gold_ore_icon,game_data["gold_ore"],fuel_icon,game_data["fuel"], coal_icon , game_data["coal"])
+    # shop_bottombar(gold_icon,game_data["gold"],gold_ore_icon,game_data["gold_ore"],fuel_icon,game_data["fuel"], coal_icon , game_data["coal"])
     header('Crafting','black','lime','white')
     item_list = [coin_craft , fuel_craft]
     gap = 4
@@ -1259,8 +1390,8 @@ def crafting_inv():
         screen.blit(item_list[i],(pos_x,pos_y))
         pygame.draw.rect(screen , "white" , [pos_x - gap , pos_y - gap , coin_craft.get_width() + gap * 2 , coin_craft.get_height() + gap * 2] , 2 , 0)
 
-    if menu_back_button.draw():
-        state = State.MENU
+    # if menu_back_button.draw():
+    #     state = State.MENU
 
 
 def exhaust_inv():
@@ -1496,6 +1627,7 @@ class Upgrade:
                 if self.enhance_button.draw():
                     game_data["celestial_stone"] -= self.celestial_stone_amount
                     ship["current_xp"] += (100 * self.celestial_stone_amount)
+                    quest_data["dailies"]["celestial_stone_used"] += self.celestial_stone_amount
                     self.celestial_stone_amount = 0
                     while ship["current_xp"] >= 1000:
                         ship["current_xp"] -= 1000
@@ -2377,7 +2509,6 @@ class Background(pygame.sprite.Sprite):
             img = pygame.image.load(f'graphics/Backgrounds/{i}.png').convert_alpha()
             img = pygame.transform.smoothscale(img, (screen_width,screen_height))
             self.bg_images.append(img)
-
         self.image = random.choice(self.bg_images)
         self.rect = self.image.get_rect()
         self.pos_x = 0
@@ -2421,37 +2552,26 @@ class Menu_Background(pygame.sprite.Sprite):
         super().__init__()
         self.bg_images = []
 
-        for i in range(25, 28):
-            img = pygame.image.load(f'graphics/Backgrounds/{i}.png').convert_alpha()
-            img = pygame.transform.smoothscale(img, (screen_width,screen_height))
+        for i in range(28, 31):
+            img = pygame.image.load(f'graphics/Backgrounds/{i}.png').convert()
+            img = pygame.transform.smoothscale(img, (screen_width, screen_height))
             self.bg_images.append(img)
 
         self.image = random.choice(self.bg_images)
         self.rect = self.image.get_rect()
-        self.pos_x = 0
         self.pos_y = 0
-        self.rect.topleft = [self.pos_x, self.pos_y]
-
 
     def update(self):
-        # Move the background image vertically
-        self.pos_y += 15
+        # Scroll speed
+        self.pos_y += 7
 
-        # Draw the current background image at the current position
-        screen.blit(self.image, (self.pos_x, self.pos_y))
-
-        # Check if the next image is partially visible on the top side
-        next_pos_y = self.pos_y - screen_height
-        if next_pos_y > -screen_height:
-            screen.blit(self.image, (self.pos_x, next_pos_y))
-
-        # Check if the current image is off the screen, reset its position
+        # Reset if completely moved down
         if self.pos_y >= screen_height:
             self.pos_y = 0
 
-
-        self.rect.topleft = [self.pos_x, self.pos_y]
-
+        # Draw two copies to cover screen
+        screen.blit(self.image, (0, self.pos_y))
+        screen.blit(self.image, (0, self.pos_y - screen_height))
 
 
     def generate_random_background(self):
@@ -3697,42 +3817,85 @@ scan_limit = 400
 sucking_bar = 10
 sucking_limit = 400
 
+# --- Slider drag lock flags ---
+music_dragging = False
+sfx_dragging = False
+
 def sound_bar():
     global settings_data
-    header("Sound Settings")
-
-    music_bar = settings_data['sound']['music']
-    sfx_bar = settings_data['sound']['sfx']
+    # --- Bar Properties ---
     bar_width = settings_data['sound']['width']
     bar_height = settings_data['sound']['height']
-
-    pos_x = (screen.get_width() - bar_width)//2
+    pos_x = (screen.get_width() - bar_width) // 2
     music_y = 250
     sfx_y = 450
 
-    pygame.draw.rect(screen,'white',[pos_x,music_y,bar_width,bar_height],0,20)
-    pygame.draw.rect(screen,'cyan',[pos_x,music_y,music_bar*4,bar_height],0,20)
-    pygame.draw.rect(screen,'black',[pos_x,music_y,bar_width,bar_height],2,20)
+    mouse_pos = pygame.mouse.get_pos()
+    mouse_pressed = pygame.mouse.get_pressed()[0]
 
-    pygame.draw.rect(screen,'white',[pos_x,sfx_y,bar_width,bar_height],0,20)
-    pygame.draw.rect(screen,'cyan',[pos_x,sfx_y,sfx_bar*4,bar_height],0,20)
-    pygame.draw.rect(screen,'black',[pos_x,sfx_y,bar_width,bar_height],2,20)
+    # Track which slider is active
+    if "active_slider" not in settings_data:
+        settings_data["active_slider"] = None
 
-    main_font = pygame.font.Font('Font/gacha.ttf',40)
-    music_text = main_font.render(f'Music : {int(music_bar/10)}', True, 'black')
-    music_text_x = (screen.get_width() - music_text.get_width())//2
-    music_text_y = 250 + (bar_height - music_text.get_height())//2 + 2
-    screen.blit(music_text,(music_text_x,music_text_y))
+    # Colors
+    BG_COLOR = (20, 20, 40)  # dark space blue
+    BAR_COLOR = (0, 200, 255)  # neon blue
+    GLOW_COLOR = (0, 255, 255)
+    HANDLE_COLOR = (10, 10, 30)
 
-    sfx_text = main_font.render(f'Sfx : {int(sfx_bar/10)}', True, 'black')
-    sfx_text_x = (screen.get_width() - sfx_text.get_width())//2
-    sfx_text_y = 450 + (bar_height - sfx_text.get_height())//2 + 2
-    screen.blit(sfx_text,(sfx_text_x,sfx_text_y))
+    main_font = pygame.font.Font('Font/gacha.ttf', 40)
 
-    
+    # --- Helper function to draw a slider ---
+    def draw_slider(value, y, label, slider_name):
+        # Background bar (outer glow effect)
+        pygame.draw.rect(screen, (0, 50, 80), [pos_x - 4, y - 4, bar_width + 8, bar_height + 8], border_radius=15)
 
+        # Main slider background
+        pygame.draw.rect(screen, BG_COLOR, [pos_x, y, bar_width, bar_height], border_radius=15)
 
-    
+        # Filled portion
+        fill_width = int(value * (bar_width / 100))
+        pygame.draw.rect(screen, BAR_COLOR, [pos_x, y, fill_width, bar_height], border_radius=15)
+
+        # Handle
+        handle_x = pos_x + fill_width
+        handle_y = y + bar_height // 2
+        handle_radius = bar_height // 1.7
+
+        # Glow
+        pygame.draw.circle(screen, GLOW_COLOR, (handle_x, handle_y), int(handle_radius) + 4)
+        pygame.draw.circle(screen, HANDLE_COLOR, (handle_x, handle_y), int(handle_radius))
+
+        # Label
+        label_text = main_font.render(f'{label}: {value}', True, BAR_COLOR)
+        label_x = (screen.get_width() - label_text.get_width()) // 2
+        screen.blit(label_text, (label_x, y - 50))
+
+        # --- Interaction Logic ---
+        if mouse_pressed:
+            if settings_data["active_slider"] is None:
+                # If no slider is active, check if clicked on this handle
+                if (handle_x - handle_radius <= mouse_pos[0] <= handle_x + handle_radius and
+                        handle_y - handle_radius <= mouse_pos[1] <= handle_y + handle_radius):
+                    settings_data["active_slider"] = slider_name
+
+            # If this slider is active, update its value
+            if settings_data["active_slider"] == slider_name:
+                relative_x = max(pos_x, min(mouse_pos[0], pos_x + bar_width))
+                value = int(((relative_x - pos_x) / bar_width) * 100)
+        else:
+            # When mouse released, deactivate slider
+            if settings_data["active_slider"] == slider_name:
+                settings_data["active_slider"] = None
+
+        return value
+
+    # --- Draw Music Slider ---
+    settings_data['sound']['music'] = draw_slider(settings_data['sound']['music'], music_y, "MUSIC", "music")
+
+    # --- Draw SFX Slider ---
+    settings_data['sound']['sfx'] = draw_slider(settings_data['sound']['sfx'], sfx_y, "SFX", "sfx")
+ 
 
 def sucking_animation (group1,group2,result1,result2):
     global sucking_bar,sucking_limit
@@ -4100,15 +4263,15 @@ def check_dailies():
     if quest_data["dailies"]["daily_reset"]:
         quest_data["dailies"]["target_playtime"][1] = False
         quest_data["dailies"]["pirates_kills"][1] = False
-        quest_data["dailies"]["lavastone_needed"][1] = False
-        quest_data["dailies"]["emerald_needed"][1] = False
+        quest_data["dailies"]["celestial_stone_needed"][1] = False
+        quest_data["dailies"]["energy_core_needed"][1] = False
         quest_data["dailies"]["craft_needed"][1] = False
         quest_data["dailies"]["wish_needed"][1] = False
         quest_data["dailies"]["last_reset_day"] = datetime.now().day
         quest_data["dailies"]["playtime"] = 0
         quest_data["dailies"]["pirate_killed"] = 0
-        quest_data["dailies"]["lavastone_obtained"] = 0
-        quest_data["dailies"]["emerald_obtained"] = 0
+        quest_data["dailies"]["celestial_stone_used"] = 0
+        quest_data["dailies"]["energy_core_used"] = 0
         quest_data["dailies"]["crafted_item"] = 0
         quest_data["dailies"]["wish_completed"] = 0
         others_data['energy_core']['current_amount'] = 500
@@ -4130,70 +4293,101 @@ def time_until_midnight():
     pos_y = (screen_height - 50 ) + (50 - time_remaining.get_height())//2
     screen.blit(time_remaining,(pos_x,pos_y))
 
-def progress_bar(value,data1,data2,pos_y,ratio,text,reward,data_tree="event"):
+def progress_bar(value, data1, data2, pos_y, ratio, text, reward, data_tree="event"):
     global quest_data
+
+    # === Progress Calculation ===
     main_data = quest_data[data_tree][data2]
     sub_data = quest_data[data_tree][data1][0]
-    check_data = quest_data[data_tree][data1][1] 
+    check_data = quest_data[data_tree][data1][1]
+
     if main_data >= sub_data:
         quest_data[data_tree][data2] = sub_data
-    bg_size_x = None 
-    main_size_x = None
+
+    progress_ratio = quest_data[data_tree][data2] / sub_data if sub_data != 0 else 0
+
     if value == 0:
         bg_size_x = sub_data / ratio
-        main_size_x = quest_data[data_tree][data2] / ratio
-    if value == 1:
+        progress_size_x = (quest_data[data_tree][data2] / ratio) if sub_data != 0 else 0
+    else:
         bg_size_x = sub_data * ratio
-        main_size_x = quest_data[data_tree][data2] * ratio
-    pos_x = (screen.get_width() - 1000)//2
-    bg_rect = pygame.Rect((pos_x, pos_y ), (bg_size_x, 30))
-    main_rect = pygame.Rect((pos_x, pos_y ), (main_size_x, 30))
-    pygame.draw.rect(screen,'white',bg_rect)
-    pygame.draw.rect(screen,'aqua',main_rect)
-    pygame.draw.rect(screen,'black',bg_rect,2)
+        progress_size_x = (quest_data[data_tree][data2] * ratio) if sub_data != 0 else 0
 
+    # === Positions and sizes ===
+    pos_x = (screen.get_width() - 1000) // 2
+    bar_height = 35
+    corner_radius = 15
 
-    mission_font = pygame.font.Font('Font/LM.otf',15)
-    mission_name = mission_font.render(text,True,'black')
-    text_pos_x = (screen.get_width() - mission_name.get_width())/2
-    text_pos_y = pos_y + 4
-    screen.blit(mission_name,(text_pos_x,text_pos_y))
-    claim_button = Rect_Button(screen,100,30,pos_x + 1020,pos_y,'Claim','yellow','red','black',20)
-    claimed_button = Rect_Button(screen,100,30,pos_x + 1020,pos_y,'Claimed','white','gray','black',20)
-    if main_data >= sub_data and check_data == False:
-        if claim_button.draw():
+    # === Draw background bar ===
+    bg_rect = pygame.Rect(pos_x, pos_y, bg_size_x, bar_height)
+    pygame.draw.rect(screen, (40, 40, 50), bg_rect, border_radius=corner_radius)
+    
+
+    # === Draw progress bar only if there is progress ===
+    if progress_size_x > 0:
+        # Create a surface for the progress bar (same size as background)
+        progress_surface = pygame.Surface((bg_size_x, bar_height), pygame.SRCALPHA)
+
+        # Draw the gradient on this surface (left to right)
+        for x in range(int(progress_size_x)):
+            r = 180 + int((255 - 180) * (x / bg_size_x))   # Red fades from 180 → 255
+            g = 40 + int((80 - 40) * (x / bg_size_x))      # Green stays low (40 → 80)
+            b = 150 + int((255 - 150) * (x / bg_size_x))   # Blue fades from 150 → 255
+            pygame.draw.line(progress_surface, (r, g, b, 255), (x, 0), (x, bar_height))
+
+        # Clip the progress surface with a rounded mask
+        mask_surface = pygame.Surface((bg_size_x, bar_height), pygame.SRCALPHA)
+        pygame.draw.rect(mask_surface, (255, 255, 255, 255), mask_surface.get_rect(), border_radius=corner_radius)
+        progress_surface.blit(mask_surface, (0, 0), special_flags=pygame.BLEND_RGBA_MIN)
+
+        # Blit the final clipped progress bar
+        screen.blit(progress_surface, (pos_x, pos_y))
+    pygame.draw.rect(screen, (100, 100, 120), bg_rect, 1, border_radius=corner_radius)
+    # === Mission Name Text ===
+    mission_font = pygame.font.Font('Font/subatomic.ttf', 15)
+    mission_name = mission_font.render(text, True, 'white')
+    text_pos_x = (screen.get_width() - mission_name.get_width()) / 2
+    text_pos_y = pos_y + (bar_height - mission_name.get_height()) // 2
+    screen.blit(mission_name, (text_pos_x, text_pos_y))
+
+    # === Buttons ===
+    claim_button = Rect_Button(screen, 80, 35, pos_x + 1020, pos_y, 'Claim',
+                               '#32CD32', '#00FF7F', 'black', 16)
+    claimed_button = Rect_Button(screen, 80, 35, pos_x + 1020, pos_y, 'Claimed',
+                                 '#708090', '#A9A9A9', 'black', 16)
+
+    # === Claim Logic ===
+    if main_data >= sub_data and not check_data:
+        if claim_button.draw(15):
             game_data["jade"] += reward
             quest_data[data_tree][data1][1] = True
-    
-    
+    elif check_data:
+        claimed_button.draw(15)
 
-    if check_data == True:
-        if claimed_button.draw():
-            pass
 
 def dailies_page():
-    menu_background_group.draw(screen)
-    menu_background_group.update()
-    header("Dailies","black","#FFC107","white")
-    progress_bar(0,"target_playtime","playtime",100,0.9,f"Play 15 minutes (Minutes: {int(quest_data['dailies']['playtime']//60)})",50,"dailies")
-    progress_bar(0,'pirates_kills',"pirate_killed",200,1,f"Kill 1000 pirates (Progress: {int(quest_data['dailies']['pirate_killed']//10)}%)",50,"dailies")
-    progress_bar(1,"lavastone_needed","lavastone_obtained",300,500,f"Obtain 2 lavastone (Progress: {int(quest_data['dailies']['lavastone_obtained']*50)}%)",50,"dailies")
-    progress_bar(1,"emerald_needed","emerald_obtained",400,500,f"Obtain 2 emerald (Progress: {int(quest_data['dailies']['emerald_obtained']*50)}%)",50,"dailies")
-    progress_bar(1,"craft_needed","crafted_item",500,500,f"Craft 2 items (Progress: {int(quest_data['dailies']['crafted_item']*50)}%)",50,"dailies")
-    progress_bar(1,"wish_needed","wish_completed",600,500,f"Summon 2 time (Progress: {int(quest_data['dailies']['wish_completed']*50)}%)",50,"dailies")
+    # menu_background_group.draw(screen)
+    # menu_background_group.update()
+    # header("Dailies","black","#FFC107","white")
+    progress_bar(0,"target_playtime","playtime",100,0.9,f"Play 15 minutes ({quest_data['dailies']['playtime']//60} / {quest_data['dailies']['target_playtime'][0]//60}) (Minutes: {int(quest_data['dailies']['playtime']//60)})",50,"dailies")
+    progress_bar(0,'pirates_kills',"pirate_killed",200,1,f"Kill 1000 pirates in infinity mode ({quest_data['dailies']['pirate_killed']} / {quest_data['dailies']['pirates_kills'][0]}) (Progress: {int(quest_data['dailies']['pirate_killed']//10)}%)",50,"dailies")
+    progress_bar(1,"celestial_stone_needed","celestial_stone_used",300,100,f"Use 10 celestial stone ({quest_data['dailies']['celestial_stone_used']} / {quest_data['dailies']['celestial_stone_needed'][0]}) (Progress: {int(quest_data['dailies']['celestial_stone_used']*10)}%)",50,"dailies")
+    progress_bar(1,"energy_core_needed","energy_core_used",400,5,f"Use 200 energy core ({quest_data['dailies']['energy_core_used']} / {quest_data['dailies']['energy_core_needed'][0]}) (Progress: {int(quest_data['dailies']['energy_core_used']*0.5)}%)",50,"dailies")
+    progress_bar(1,"craft_needed","crafted_item",500,500,f"Craft 2 items ({quest_data['dailies']['crafted_item']} / {quest_data['dailies']['craft_needed'][0]}) (Progress: {int(quest_data['dailies']['crafted_item']*50)}%)",50,"dailies")
+    progress_bar(1,"wish_needed","wish_completed",600,500,f"Summon 2 time ({quest_data['dailies']['wish_completed']} / {quest_data['dailies']['wish_needed'][0]}) (Progress: {int(quest_data['dailies']['wish_completed']*50)}%)",50,"dailies")
 
     
 
 def event_page():
-    menu_background_group.draw(screen)
-    menu_background_group.update()
-    header("Event","black","#FFC107","white")
-    progress_bar(0,'pirates_kills',"pirate_killed",100,100,f"Kill 100000 pirates (Progress: {int(quest_data['event']['pirate_killed']//1000)}%)",500)
-    progress_bar(0,'planet_discover',"planet_discovered",200,1,f"Discover 1000 planets (Progress: {int(quest_data['event']['planet_discovered']//10)}%)",500)
-    progress_bar(1,'boss_kills','boss_killed',300,10,f"Kill 100 planet bosses (Progress: {int(quest_data['event']['boss_killed'])}%)",500)
-    progress_bar(1,'wormhole_discover',"wormhole_discovered",400,20,f"Discover 50 Wormholes (Progress: {int(quest_data['event']['wormhole_discovered']*2)}%)",500)
-    progress_bar(0,'meteor_destroy',"meteor_destroyed",500,10,f"Destroy 10000 meteors (Progress: {int(quest_data['event']['meteor_destroyed']//100)}%)",500)
-    progress_bar(1,'spacestation_found','spacestation_founded',600,50,f"Discover 20 Spacestation (Progress: {int(quest_data['event']['spacestation_founded']*5)}%)",500)
+    # menu_background_group.draw(screen)
+    # menu_background_group.update()
+    # header("Event","black","#FFC107","white")
+    progress_bar(0,'pirates_kills',"pirate_killed",100,100,f"Kill 100000 pirates ({quest_data['event']['pirate_killed']} / {quest_data['event']['pirates_kills'][0]}) (Progress: {int(quest_data['event']['pirate_killed']//1000)}%)",500)
+    progress_bar(0,'planet_discover',"planet_discovered",200,1,f"Discover 1000 planets ({quest_data['event']['planet_discovered']} / {quest_data['event']['planet_discover'][0]}) (Progress: {int(quest_data['event']['planet_discovered']//10)}%)",500)
+    progress_bar(1,'boss_kills','boss_killed',300,10,f"Kill 100 planet bosses ({quest_data['event']['boss_killed']} / {quest_data['event']['boss_kills'][0]}) (Progress: {int(quest_data['event']['boss_killed'])}%)",500)
+    progress_bar(1,'wormhole_discover',"wormhole_discovered",400,20,f"Discover 50 Wormholes ({quest_data['event']['wormhole_discovered']} / {quest_data['event']['wormhole_discover'][0]}) (Progress: {int(quest_data['event']['wormhole_discovered']*2)}%)",500)
+    progress_bar(0,'meteor_destroy',"meteor_destroyed",500,10,f"Destroy 10000 meteors ({quest_data['event']['meteor_destroyed']} / {quest_data['event']['meteor_destroy'][0]}) (Progress: {int(quest_data['event']['meteor_destroyed']//100)}%)",500)
+    progress_bar(1,'spacestation_found','spacestation_founded',600,50,f"Discover 20 Spacestation ({quest_data['event']['spacestation_founded']} / {quest_data['event']['spacestation_found'][0]}) (Progress: {int(quest_data['event']['spacestation_founded']*5)}%)",500)
 
 
 def clean_space_screen():
@@ -4262,6 +4456,7 @@ def pirates_spaceship_collisions():
     if research_kills > 100:
         game_data['celestial_stone'] += 10
         others_data['energy_core']['current_amount'] -= 50
+        quest_data['dailies']['energy_core_used'] += 50
         profile.add_xp(500)
         state = State.REWARD
 
@@ -4288,8 +4483,39 @@ def pause_menu(resume_state):
     if menu_button.draw():
         state = State.MENU
 
+def controls():
+    # screen.fill((10, 10, 30))  # dark sci-fi background
+
+    font_controls = pygame.font.Font("Font/subatomic.ttf", 28)
+
+    # Control mappings (label, key)
+    controls_list = [
+        ("W", "Move Up"),
+        ("A", "Move Left"),
+        ("S", "Move Down"),
+        ("D", "Move Right"),
+        ("Space", "Shoot Bullet"),
+        ("Mouse", "Special Spaceship Movement"),
+        ("E", "Skill"),
+        ("R", "Ultimate"),
+        ("Tab", "Tab Menu"),
+        ("Esc", "Pause Menu")
+    ]
+
+    # Vertical layout
+    spacing = 50
+    start_y = 120
+
+    for i, (key, action) in enumerate(controls_list):
+        text = f"{key} - {action}"
+        control_text = font_controls.render(text, True, (255, 255, 255))
+        text_x = (screen.get_width() - control_text.get_width()) // 2
+        text_y = start_y + i * spacing
+        screen.blit(control_text, (text_x, text_y))
 
 
+panel_window = pygame.Surface((screen.get_width() * 0.9 , screen.get_height() * 0.9), pygame.SRCALPHA)
+panel = Panel(screen , panel_window ,menu_background_group)
 
 
 while run:
@@ -4329,6 +4555,11 @@ while run:
 
 
     # INFINITY MODE BULLET CREATION
+
+        if event.type == pygame.KEYDOWN and state == State.PROFILE:
+            if event.key == K_ESCAPE:
+                state = State.MENU
+
         if event.type == pygame.MOUSEBUTTONDOWN and state in GAME_STATE:
             if event.button == 3:
                 bullet = spaceship.create_bullets()
@@ -4401,6 +4632,7 @@ while run:
 
      # INFINITY MODE FURRYSHIP ULTIMATE            
             if event.key == K_r and state in GAME_STATE and game_data["spaceship"] == 3 and furryship_ult_timer == 1500:
+                skill_channel.play(furry_ult_sound)
                 meteor_shower = spaceship.furryship_ultimate()
                 furry_ult_group.add(meteor_shower)
                 furryship_ult_timer = 0
@@ -4464,22 +4696,32 @@ while run:
         if menu_back_button.draw():
             state = State.MENU
     if state == State.EVENT:
+        panel.draw("Event")
         event_page()
-        shop_bottombar(jade_icon,game_data["jade"])
-        if menu_back_button.draw():
+        # shop_bottombar(jade_icon,game_data["jade"])
+        # if menu_back_button.draw():
+        #     state = State.MENU
+        if dailies_button.draw():
+            state = State.JOURNEY
+        if event_button.draw():
+            state = State.EVENT
+        if back_from_journey.draw():
             state = State.MENU
-        dailies_button.draw()
-        event_button.draw()
 
             
     if state == State.JOURNEY:
+        panel.draw("Dailies")
         dailies_page()
-        shop_bottombar(jade_icon,game_data["jade"])
+        # shop_bottombar(jade_icon,game_data["jade"])
         time_until_midnight()
-        if menu_back_button.draw():
+        # if menu_back_button.draw():
+        #     state = State.MENU
+        if dailies_button.draw():
+            state = State.JOURNEY
+        if event_button.draw():
+            state = State.EVENT
+        if back_from_journey.draw():
             state = State.MENU
-        dailies_button.draw()
-        event_button.draw()
 
         # middle_letters('Comming Soon',0,0,40,'red')
     if state == State.PLANETERY_OPTION:
@@ -4527,7 +4769,6 @@ while run:
         slot_two = None
         game_data["spaceship"]  = saved_ship
         slot_one = game_data["spaceship"]
-
 
     if state == State.SELECTION:
         selection_func()
@@ -4599,38 +4840,39 @@ while run:
         exhaust_inv()
 
     if state == State.SETTINGS:
-        screen.blit(settings_bg,(0,0))
+        panel.draw("Sound")
         sound_bar()
         if sound_button.draw():
             state = State.SETTINGS
         if display_button.draw():
             state = State.DISPLAY
-
-        if menu_back_button.draw():
+        if controls_button.draw():
+            state = State.CONTROLS
+        if back_from_setting.draw():
             state = State.MENU
-        if settings_data["sound"]["music"] < 100:
-            if music_increase_btn.draw(20):
-                settings_data["sound"]["music"] += 10
-        if settings_data["sound"]["music"] > 0:
-            if music_decrease_btn.draw(20):
-                settings_data["sound"]["music"] -= 10
-        if settings_data["sound"]["sfx"] < 100:
-            if sfx_increase_btn.draw(20):
-                settings_data["sound"]["sfx"] += 10
-        if settings_data["sound"]["sfx"] > 0:
-            if sfx_decrease_btn.draw(20):
-                settings_data["sound"]["sfx"] -= 10
 
-
-
-
-    if state == State.DISPLAY:
-        screen.blit(settings_bg,(0,0))
+    if state == State.CONTROLS:
+        panel.draw("Controls")
+        controls()
         if sound_button.draw():
             state = State.SETTINGS
         if display_button.draw():
             state = State.DISPLAY
-        header('Display Settings')
+        if controls_button.draw():
+            state = State.CONTROLS
+        if back_from_setting.draw():
+            state = State.MENU
+    if state == State.DISPLAY:
+        panel.draw("Display")
+        if sound_button.draw():
+            state = State.SETTINGS
+        if display_button.draw():
+            state = State.DISPLAY
+        if controls_button.draw():
+            state = State.CONTROLS
+        if back_from_setting.draw():
+            state = State.MENU
+        # header('Display Settings')
         if seven_twenty_button.draw():
             settings_data["screen_width"] = 1280
             settings_data["screen_height"] = 720
@@ -4641,11 +4883,6 @@ while run:
             settings_data["screen_height"] = 768
             state = State.QUIT
         seven_sixty_eight_button.hover("Restart to apply  changes",'below',20)
-        if menu_back_button.draw():
-            state = State.MENU
-
-   
-
 
     if state == State.SPACESTATION_ENTER:
         screen.fill('black')
@@ -4676,6 +4913,8 @@ while run:
     if state == State.SPACESTATION:
         spacestation_menu()
 
+    if state == State.PROFILE:
+        panel.draw("Profile")
 
     if state == State.ALIVE:
         boss_01_hp = 100000
@@ -4798,14 +5037,14 @@ while run:
                 game_data["purple gemstone"] += 1
             if random_mat == 50:
                 game_data["emerald"] += 1
-                quest_data["dailies"]["emerald_obtained"] += 1
+                # quest_data["dailies"]["emerald_obtained"] += 1
             if random_mat == 70:
                 game_data["frost crystal"] += 1
             if random_mat == 80:
                 game_data["iridium"] += 1
             if random_mat == 100:
                 game_data["lavastone"] += 1
-                quest_data["dailies"]["lavastone_obtained"] +=1
+                # quest_data["dailies"]["lavastone_obtained"] +=1
 
 
         death = pygame.sprite.groupcollide(spaceship_group,pirate_group,False,True)

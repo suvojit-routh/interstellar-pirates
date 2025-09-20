@@ -41,7 +41,8 @@ class State(Enum):
 	LOBBY = auto()
 	REWARD = auto()
 	RESEARCH_SHOP =  auto()
-
+	CONTROLS = auto()
+	PROFILE = auto()
 
 state = State.START_BGM
 

@@ -17,6 +17,7 @@ font = pygame.font.SysFont(None, 48)
 timer = 60  # seconds
 start_ticks = pygame.time.get_ticks()
 
+
 while True:
     screen.fill(WHITE)
 
